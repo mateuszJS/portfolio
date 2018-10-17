@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mateusz Portoflio 🍾</title>
+    <base href="/">
+    <script>
+      (function(l) {
+        if (l.search) {
+          var q = {};
+          l.search.slice(1).split('&').forEach(function(v) {
+            var a = v.split('=');
+            q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+          });
+          if (q.p !== undefined) {
+            window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + (q.p || '') +
+              (q.q ? ('?' + q.q) : '') +
+              l.hash
+            );
+          }
+        }
+      }(window.location))
+    </script>
+    <script>
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      // var hint = document.createElement('link');
+      //     hint.rel = "prefetch";
+      //     hint.as = "script";
+      //     hint.href = 'https://mateuszjs.github.io/animation.bundle.js';
+      // document.head.appendChild(hint);
+      window.isDesktop = false;
+      window.isMobile = true;
+    } else {
+      window.isDesktop = true;
+      window.isMobile = false;
+    }
+    </script>
+  </head>
+  <body>
+    <p id="sensor-test"></p>
+    <p id="orientation-test"></p>
+    <span class="cursor" style="display: none"></span>
+    <canvas class="animation-block"></canvas>
+    <main></main>
+  </body>
+</html>

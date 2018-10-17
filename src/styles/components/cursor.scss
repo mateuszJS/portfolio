@@ -1,0 +1,46 @@
+.cursor {
+  position: fixed;
+  display: block;
+  height: 200px;
+  width: 200px;
+  border: 15px solid $color-accent;
+  border-radius: 100px;
+  pointer-events: none;
+  z-index: 2;
+  transform-origin: 50% 50%;
+  transition: 0.7s ease transform,
+              0.7s ease border-radius,
+              0.7s ease border-width,
+              0.5s ease opacity;
+  @media (max-width: $breakpoint-phone) {
+    display: none;
+  }
+}
+
+.default {
+  transform: scale3d(0.15, 0.15, 1);
+}
+
+.btn-hover {
+  border-radius: 2px;
+  border-width: 6px 2px 6px 2px;
+  transform: scale3d(1, 0.25, 1);
+}
+
+.link-hover {
+  border-width: 90px 1px 90px 1px;
+  border-radius: 1px;
+  transform: scale3d(0.71, 0.02, 1);
+}
+
+.route-left-hover {
+  border-width: 15px 15px 0 0;
+  border-radius: 1px;
+  transform: scale3d(0.25, 0.25, 1) rotate3d(0, 0, 1, -135deg);
+}
+
+.route-right-hover {
+  border-width: 15px 15px 0 0;
+  border-radius: 1px;
+  transform: scale3d(0.25, 0.25, 1) rotate3d(0, 0, 1, 45deg);
+}

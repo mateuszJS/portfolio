@@ -1,0 +1,26 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    &::selection {
+        background-color: $color-accent;
+        color: #ff6633;
+    }
+}
+li {
+    display: block;
+}
+img, button {
+    user-select: none;
+}
+html {
+    font-size: 16px;
+}
+body {
+    font-family: 'bebas_neueregular';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    color: $color-basic;
+}

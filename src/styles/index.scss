@@ -1,0 +1,28 @@
+@import 'settings/colors';
+@import 'settings/fonts';
+@import 'settings/breakpoints';
+
+
+@import 'base/base';
+
+@import 'previewModal';
+
+@import 'components/button';
+@import 'components/link';
+@import 'components/tags';
+@import 'components/page';
+@import 'components/wrapper';
+@import 'components/animation-block';
+@import 'components/route-link';
+@import 'components/cursor';
+@import 'components/scroll-bar';
+@import 'components/icon';
+
+@import 'trumps/mainPageAnimation.scss';
+@import 'trumps/animationDelays.scss';
+
+@import 'components/preview';
+
+@import 'trumps/contact-page';
+@import 'trumps/main-page';
+@import 'trumps/works-page';

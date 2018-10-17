@@ -1,0 +1,64 @@
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    &--hidden {
+        .tags-list__tag {
+            opacity: 0;
+            transform: translate3d(0, -30px, 0);
+        }
+    }
+    &__tag {
+        display: block;
+        padding: 0 12px 3px 12px;
+        border-radius: 25px;
+        margin: 12px 8px;
+        font-size: 20px;
+        background-color: currentColor;
+        text-decoration: none;
+        transition: transform 1s ease,
+                    opacity 1s ease;
+        @media (max-width: $breakpoint-phone) {
+            font-size: 16px;
+        }
+        .icon {
+            color: #ffffff;
+            margin-left: 8px;
+            transition: opacity 0.5s ease,
+                        transform 0.5s ease;
+            &.icon-tiny {
+                font-size: 0.85em;
+                position: relative;
+                top: -1px;
+                left: -1px;
+            }
+        }
+
+        span {
+            color: #ffffff;
+            display: inline-block;
+            transition: transform 0.5s ease;
+            transition-delay: 0.15s;
+        }
+    }
+    &__space {
+        flex-basis: 100%;
+        @media (max-width: $breakpoint-phone) {
+            display: none;
+        }
+    }
+    @media (max-width: $breakpoint-phone) {
+        margin-left: auto;
+        margin-right: auto;
+        width: 340px;
+    }
+}
+
+.tags-list__tag:hover {
+    .icon {
+        transform: translate3d(30px, 0, 0);
+        opacity: 0;
+    }
+    span {
+        transform: translate3d(15px, 0, 0);
+    }
+}

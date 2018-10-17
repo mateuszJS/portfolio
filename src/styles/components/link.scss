@@ -1,0 +1,14 @@
+.link {
+    display: inline-block;
+    color: $color-accent;
+    user-select: none;
+    font-size: 1.3rem;
+    line-height: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    @media (max-width: $breakpoint-phone) {
+        padding: 4px;
+        text-decoration: underline;
+        text-decoration-style: wavy;
+    }
+}

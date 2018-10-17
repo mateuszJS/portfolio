@@ -1,0 +1,34 @@
+.animation-block {
+    /*IT'S AMAZING IMPORTANT FOR OPTIMALIZATION, IT'S SAVE AROUND 10% OF GPU*/
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    /*END OF AMAZING PART*/
+    pointer-events: none;
+    transform-origin: 50% 100%;
+    transition: opacity ease 0.5s,
+                transform ease 0.5s;
+    &:not(.active) {
+        opacity: 0;
+        transform: scale3d(0.8, 0.8, 1);
+    }
+    @media (max-width: $breakpoint-phone) {
+    }
+}
+
+#sensor-test, #orientation-test  {
+    position: fixed;
+    top: 50vh;
+    text-align: center;
+    color: red;
+    font-size: 25px;
+    max-width: 300px;
+    background: #fff;
+    z-index: 99999;
+}
+
+#orientation-test {
+    top: 40vh;
+    color: blue;
+}

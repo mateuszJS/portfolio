@@ -1,0 +1,50 @@
+$list:
+(size: 28, space-top: 10, space-left: 22, dasharray: 232),
+(size: 35, space-top: 34, space-left: 49, dasharray: 382),
+(size: 37, space-top: 45, space-left: 2, dasharray: 390),
+(size: 27, space-top: 63, space-left: 61, dasharray: 260),
+(size: 28, space-top: 84, space-left: 23, dasharray: 420),
+(size: 46, space-top: 107, space-left: 42, dasharray: 365),
+(size: 29, space-top: 127, space-left: 8, dasharray: 295),
+(size: 31, space-top: 154, space-left: 45, dasharray: 465),
+(size: 37, space-top: 176, space-left: 11, dasharray: 375),
+;
+
+@each $preview in $list {
+    $i: index($list, $preview);
+    .preview-#{$i} {
+        width: calc(#{map-get($preview, size)}vw - 40px);
+        transform: translate3d(#{map-get($preview, space-left) * 0.85}vw, #{(map-get($preview, space-top))}vw, 0);
+        path, polyline {
+            stroke-dasharray: #{map-get($preview, dasharray)};
+            stroke-dashoffset: #{map-get($preview, dasharray)};
+        }
+    }
+}
+
+.previews-list {
+    position: relative;
+    min-height: 210vw;
+}
+
+.gradient-digit {
+    height: 120px;
+    position: absolute;
+    margin-top: -50px;
+    margin-left: -40px;
+    z-index: 1;
+    path, polyline {
+        stroke-width: 24;
+        fill: none;
+        transition: stroke-dashoffset 2s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    @media (max-width: $breakpoint-phone) {
+        height: 60px;
+        margin-top: 60px;
+        margin-left: 30px;
+    }
+}
+
+.preview--active path, .preview--active polyline {
+    stroke-dashoffset: 0;
+}
