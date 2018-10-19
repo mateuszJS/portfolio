@@ -95,25 +95,6 @@ function setup() {
       0
     );
     app.renderer.resize(width, height);
-
-    console.log(width, height);
-    // bg.width = dimensions.width;
-    // bg.height = dimensions.height;
-    const smallSize = Math.min(width, height);
-    const bigSize = Math.max(width, height);
-    // console.log(smallSize, bg.width);
-    // console.log(bigSize, bg.height);
-    // bg.scale.set(smallSize / bg.width, bigSize / bg.height);
-
-    // bg.width = smallSize;
-    // bg.height = bigSize;
-    // dimensions.width = smallSize;
-    // dimensions.height = bigSize;
-    // glueMask.renderer.resize(smallSize, bigSize);
-    // glueFilter.filterArea = app.screen;
-    // bg.filterArea = app.screen;
-    temp_angle = deviceOrientation * Math.PI / 180 + Math.PI;
-    console.log(bg, bg.width, bg.height);
   }
 
   window.addEventListener('resize', () => {
@@ -173,18 +154,9 @@ function gameLoop() {
 app.ticker.add(gameLoop);
 app.ticker.stop();
 
-const prepateAngle = (rawValue) => {
-  let value = rawValue % (2 * Math.PI);
-  if (value < 0) value += 2 * Math.PI;
-  return value;
-}
-
 const animateAngle = (curr, end) => {
-  // curr = prepateAngle(curr);
-  // end = prepateAngle(end);
   const d = Math.abs(curr - end) % (Math.PI * 2); 
   const r = d > Math.PI ? (Math.PI * 2) - d : d;
-  
   //calculate sign 
   const sign = (curr - end >= 0 && curr - end <= Math.PI) || (curr - end <=-Math.PI && curr - end>= -(Math.PI * 2)) ? 1 : -1; 
   return r * sign;
