@@ -3,7 +3,6 @@ import GlueMask from './GlueMask';
 import GlueFilter from './GlueFilter';
 import spaceBackgroundImage from './assets/space.png';
 import circleMaskImage from './assets/circleSM30newInline.png';
-import leftBoundaryImage from './assets/leftBoundaryInline.png';
 import floatButtonImage from './assets/floatButton.png';
 import clamp from './utils/clamp';
 
@@ -19,24 +18,25 @@ let temp_angle = initialGamma * Math.PI / 180 + Math.PI;
 let allowCalcPhycis = true;
 
 //Pixi main config-------------------------------------
-var canvasNode = document.querySelector('.animation-block');
+const canvasNode = document.querySelector('.animation-block');
+const workBtn = document.querySelector('.btn');
 canvasNode.width = dimensions.width;
 canvasNode.height = dimensions.height;
-var app = new PIXI.Application(dimensions.width, dimensions.height, { transparent: true, view: canvasNode, }, );
+const app = new PIXI.Application(dimensions.width, dimensions.height, { transparent: true, view: canvasNode, }, );
 
 PIXI.Loader.shared
   .add([
     spaceBackgroundImage,
     circleMaskImage,
-    leftBoundaryImage,
     floatButtonImage,
     ])
   .load(setup);
 
 let bg, glueMask, floatButton = {
-  sprite: null,
+  node: workBtn,
   distance: dimensions.height * 0.2,
   currDistance: dimensions.height * 0.2,
+  currRotation: 0,
 }
 function setup() {
   glueMask = new GlueMask(
@@ -56,15 +56,6 @@ function setup() {
   bg.filters = [glueFilter];
   bg.width = dimensions.width;
   bg.height = dimensions.height;
-
-
-  floatButton.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[floatButtonImage].texture);
-  floatButton.sprite.width = 180;
-  floatButton.sprite.height = 50;
-  floatButton.sprite.anchor.set(0.5);
-  floatButton.sprite.x = dimensions.width * 0.5;
-  floatButton.sprite.y = dimensions.height * 0.7;
-  app.stage.addChild(floatButton.sprite);
   
   app.stage.pivot.set(dimensions.width / 2, dimensions.height / 2);
   app.stage.interactiveChildren = false; // performance
@@ -165,18 +156,20 @@ const animateAngle = (curr, end) => {
 function play() {
   glueMask.update(dimensions, temp_angle);
 
-  const angleDiff = animateAngle(floatButton.sprite.rotation, temp_angle + Math.PI);
+  const angleDiff = animateAngle(floatButton.currRotation, temp_angle + Math.PI);
   const distanceDiff = -floatButton.currDistance + floatButton.distance;
   if (Math.abs(distanceDiff) < 1 && Math.abs(angleDiff) < 0.005) {
     floatButton.currDistance = floatButton.distance;
-    floatButton.sprite.rotation = temp_angle + Math.PI;
-    floatButton.sprite.x = Math.sin(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
-    floatButton.sprite.y = -Math.cos(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.currRotation = temp_angle + Math.PI;
+    const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
+    const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.node.transform = `rotate(${floatButton.currRotation}deg) translate3d(${x}, ${y}, 0)`;
   } else {
     floatButton.currDistance += distanceDiff * 0.04;
-    floatButton.sprite.rotation -= angleDiff * 0.02;
-    floatButton.sprite.x = Math.sin(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
-    floatButton.sprite.y = -Math.cos(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.currRotation -= angleDiff * 0.02;
+    const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
+    const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.node.transform = `rotate(${floatButton.currRotation}deg) translate3d(${x}, ${y}, 0)`;
   }
 }
 

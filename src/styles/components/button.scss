@@ -35,7 +35,11 @@ $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
         outline: none;
     }
     @media (max-width: $breakpoint-phone) {
-        margin: 4.5rem 0 2rem 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform-origin: 50% 50%;
+        margin: 0;
         border: 2px solid $color-accent;
         &::after {
             display: none;
@@ -52,7 +56,7 @@ $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
             background-color: $color-accent;
             border-radius: 0;
             border: none;
-            outline: 5px solid $color-accent;;
+            outline: 5px solid $color-accent;
         }
     }
 }
