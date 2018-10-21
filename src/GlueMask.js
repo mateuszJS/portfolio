@@ -46,10 +46,14 @@ export default class GlueMask extends PIXI.Sprite {
   }
 
   init (displayWidth, displayHeight, createSprite) {
+    const spaceBetween = 2;
+    const numberCirclesInRow = displayWidth / (r + spaceBetween);
     for (let i = 0; i < circleData.length; i += 2) {
-      const x = displayWidth * Math.random();
-      const y = displayHeight * Math.random();
 
+      const x = (i % numberCirclesInRow) * (r + spaceBetween);
+      const y = displayHeight - Math.floor(i / numberCirclesInRow) * (r + spaceBetween);
+
+      
       circleData[i] = x;
       circleData[i + 1] = y;
 

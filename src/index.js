@@ -384,6 +384,8 @@ var onMountedWorksPage = function() {
     // Turn of sear
 }
 
+document.querySelector('.btn').addEventListener('click', redirect.bind('/works'));
+
 Router.routes = [
     {
         name: 'MAIN',
@@ -391,16 +393,16 @@ Router.routes = [
         index: 2,
         initHandler: handlerMainPage,
         events: [
-            {
-                element: '.btn',
-                type: 'click',
-                handler: redirect.bind('/works')
-            },
-            {
-                element: '.link',
-                type: 'click',
-                handler: redirect.bind('/about')
-            }
+            // {
+            //     element: '.btn',
+            //     type: 'click',
+            //     handler: redirect.bind('/works')
+            // },
+            // {
+            //     element: '.link',
+            //     type: 'click',
+            //     handler: redirect.bind('/about')
+            // }
         ],
         willUnmountHandler: willUnmountMainPage
         // unmountedHandler: unmountMainPage
