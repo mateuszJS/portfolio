@@ -3,7 +3,6 @@ import GlueMask from './GlueMask';
 import GlueFilter from './GlueFilter';
 import spaceBackgroundImage from './assets/space.png';
 import circleMaskImage from './assets/circleSM30newInline.png';
-import leftBoundaryImage from './assets/leftBoundaryInline.png';
 import floatButtonImage from './assets/floatButton.png';
 import clamp from './utils/clamp';
 
@@ -19,24 +18,30 @@ let temp_angle = initialGamma * Math.PI / 180 + Math.PI;
 let allowCalcPhycis = true;
 
 //Pixi main config-------------------------------------
-var canvasNode = document.querySelector('.animation-block');
+const canvasNode = document.querySelector('.animation-block');
+const workBtn = document.querySelector('.btn');
+const workBtnContainer = document.querySelector('.btn-container');
 canvasNode.width = dimensions.width;
 canvasNode.height = dimensions.height;
-var app = new PIXI.Application(dimensions.width, dimensions.height, { transparent: true, view: canvasNode, }, );
+const app = new PIXI.Application(dimensions.width, dimensions.height, { transparent: true, view: canvasNode, }, );
+
+workBtnContainer.style.width = `${dimensions.width}px`;
+workBtnContainer.style.height = `${dimensions.height}px`;
 
 PIXI.Loader.shared
   .add([
     spaceBackgroundImage,
     circleMaskImage,
-    leftBoundaryImage,
     floatButtonImage,
     ])
   .load(setup);
 
 let bg, glueMask, floatButton = {
-  sprite: null,
+  node: workBtn,
+  container: workBtnContainer,
   distance: dimensions.height * 0.2,
   currDistance: dimensions.height * 0.2,
+  currRotation: 0,
 }
 function setup() {
   glueMask = new GlueMask(
@@ -56,15 +61,6 @@ function setup() {
   bg.filters = [glueFilter];
   bg.width = dimensions.width;
   bg.height = dimensions.height;
-
-
-  floatButton.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[floatButtonImage].texture);
-  floatButton.sprite.width = 180;
-  floatButton.sprite.height = 50;
-  floatButton.sprite.anchor.set(0.5);
-  floatButton.sprite.x = dimensions.width * 0.5;
-  floatButton.sprite.y = dimensions.height * 0.7;
-  app.stage.addChild(floatButton.sprite);
   
   app.stage.pivot.set(dimensions.width / 2, dimensions.height / 2);
   app.stage.interactiveChildren = false; // performance
@@ -96,24 +92,17 @@ function setup() {
     );
     app.renderer.resize(width, height);
 
-    console.log(width, height);
-    // bg.width = dimensions.width;
-    // bg.height = dimensions.height;
-    const smallSize = Math.min(width, height);
-    const bigSize = Math.max(width, height);
-    // console.log(smallSize, bg.width);
-    // console.log(bigSize, bg.height);
-    // bg.scale.set(smallSize / bg.width, bigSize / bg.height);
-
-    // bg.width = smallSize;
-    // bg.height = bigSize;
-    // dimensions.width = smallSize;
-    // dimensions.height = bigSize;
-    // glueMask.renderer.resize(smallSize, bigSize);
-    // glueFilter.filterArea = app.screen;
-    // bg.filterArea = app.screen;
-    temp_angle = deviceOrientation * Math.PI / 180 + Math.PI;
-    console.log(bg, bg.width, bg.height);
+    temp_angle = deviceOrientation  * Math.PI / 180 + Math.PI;
+    const x = Math.sin(temp_angle) * (0.7 * dimensions.width / 2);
+    const y = -Math.cos(temp_angle) * (0.7 * dimensions.height / 2);
+    floatButton.distance = Math.sqrt(x * x + y * y);
+    if (deviceOrientation == 0) {
+      floatButton.container.style.transform = 'rotate(0deg)';
+    } else if (-deviceOrientation == 90) {
+      floatButton.container.style.transform = `rotate(${-deviceOrientation}deg) translate3d(${(dimensions.width - dimensions.height) / 2}px, ${(dimensions.width - dimensions.height) / 2}px, 0)`;
+    } else if (-deviceOrientation == -90) {
+      floatButton.container.style.transform = `rotate(${-deviceOrientation}deg) translate3d(${(dimensions.height - dimensions.width) / 2}px, ${(dimensions.height - dimensions.width) / 2}px, 0)`;
+    }
   }
 
   window.addEventListener('resize', () => {
@@ -173,18 +162,9 @@ function gameLoop() {
 app.ticker.add(gameLoop);
 app.ticker.stop();
 
-const prepateAngle = (rawValue) => {
-  let value = rawValue % (2 * Math.PI);
-  if (value < 0) value += 2 * Math.PI;
-  return value;
-}
-
 const animateAngle = (curr, end) => {
-  // curr = prepateAngle(curr);
-  // end = prepateAngle(end);
   const d = Math.abs(curr - end) % (Math.PI * 2); 
   const r = d > Math.PI ? (Math.PI * 2) - d : d;
-  
   //calculate sign 
   const sign = (curr - end >= 0 && curr - end <= Math.PI) || (curr - end <=-Math.PI && curr - end>= -(Math.PI * 2)) ? 1 : -1; 
   return r * sign;
@@ -193,18 +173,20 @@ const animateAngle = (curr, end) => {
 function play() {
   glueMask.update(dimensions, temp_angle);
 
-  const angleDiff = animateAngle(floatButton.sprite.rotation, temp_angle + Math.PI);
+  const angleDiff = animateAngle(floatButton.currRotation, temp_angle + Math.PI);
   const distanceDiff = -floatButton.currDistance + floatButton.distance;
-  if (Math.abs(distanceDiff) < 1 && Math.abs(angleDiff) < 0.005) {
+  if (Math.abs(distanceDiff) < 1 && Math.abs(angleDiff) < 0.002) {
     floatButton.currDistance = floatButton.distance;
-    floatButton.sprite.rotation = temp_angle + Math.PI;
-    floatButton.sprite.x = Math.sin(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
-    floatButton.sprite.y = -Math.cos(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.currRotation = temp_angle + Math.PI;
+    const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
+    const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.node.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${floatButton.currRotation * 180 / Math.PI}deg)`;
   } else {
-    floatButton.currDistance += distanceDiff * 0.04;
-    floatButton.sprite.rotation -= angleDiff * 0.02;
-    floatButton.sprite.x = Math.sin(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
-    floatButton.sprite.y = -Math.cos(floatButton.sprite.rotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.currDistance += distanceDiff * 0.05;
+    floatButton.currRotation -= angleDiff * 0.02;
+    const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
+    const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+    floatButton.node.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${floatButton.currRotation * 180 / Math.PI}deg)`;
   }
 }
 

@@ -1,58 +1,30 @@
-$scale: 1.8;
 $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
 
 .btn {
-    width: 112px * $scale;
-    height: 30px * $scale;
-    margin: 3.5rem 0 2rem 0;
-    border: none;
+    position: fixed;
+    top: -27px;
+    left: -100px;
+    width: 200px;
+    height: 54px;
+    color: #fff;
     background: none;
+    border: 2px solid #fff;
     align-items: center;
     font-family: inherit;
-    font-size: 1rem * $scale;
+    font-size: 1.8rem;
     letter-spacing: 0px;
     cursor: pointer;
     transition: letter-spacing $animation-params;
-    &::before, &::after {
-        display: inline-block;
-        content: '';
-        width: 8px;
-        height: 8px;
-        border: $color-accent 2px solid;
-        border-radius: 50%;
-        margin-bottom: 4px;
-    }
-    &::before {
-        margin-right: 15px;
-    }
-    &::after {
-        margin-left: 15px;
-    }
     &:hover {
         letter-spacing: 10px;
     }
     &:focus {
         outline: none;
     }
-    @media (max-width: $breakpoint-phone) {
-        margin: 4.5rem 0 2rem 0;
-        border: 2px solid $color-accent;
-        &::after {
-            display: none;
-        }
-        &::before {
-            position: relative;
-            top: -60px;
-            left: 5px;
-            content: '';
-            display: block;
-            width: 60vw;
-            height: 0;
-            max-width: 120px;
-            background-color: $color-accent;
-            border-radius: 0;
-            border: none;
-            outline: 5px solid $color-accent;;
-        }
-    }
+}
+
+.btn-container {
+    position: fixed;
+    top: 0;
+    left: 0;
 }
