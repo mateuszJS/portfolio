@@ -8,7 +8,8 @@ import MainPageTemplate from './templates/MainPageTemplate.html';
 import WorksPageTemplate from './templates/WorksPageTemplate.html';
 import listenTouchSwipe from './touchSwipe';
 import addUpdatingTitle from './updateTitle';
-
+import hideUrlBar from './hideUrlBar';
+import sayHello from './sayHello';
 
 var mainElement = document.querySelector('main');
 var canvas = document.querySelector('.animation-block');
@@ -23,6 +24,9 @@ window.addEventListener('touchstart', function onFirstTouch() {
     isTouchDevice = true;
     window.removeEventListener('touchstart', onFirstTouch, false);
 }, false);
+
+sayHello();
+hideUrlBar();
 
 //===========FUNDAMENTAL ADD ELEMENTS FUNCTION================//
 var addElement = function(newContent, classList, container) {
@@ -464,25 +468,3 @@ Router.routes = [
 ];
 
 Router.initialize();
-
-function sayHello() {
-    if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-        window.console.log(
-            "\n\n\n%c  %c Hi, I'm Mateusz! \n%c  %c Welcome to my portfolio! \n%c  %c If you have any technical question, ask me. \n%c  %c mate.walendzik@gmail.com \n\n\n",
-            'background: #22ff77; padding:5px 0;',
-            'color: #22ff77; background: #09124f; padding:5px 0;',
-            'background: #22ff77; padding:5px 0;',
-            'color: #22ff77; background: #09124f; padding:5px 0;',
-            'background: #22ff77; padding:5px 0;',
-            'color: #22ff77; background: #09124f; padding:5px 0;',
-            'background: #22ff77; padding:5px 0;',
-            'color: #22ff77; background: #09124f; padding:5px 0;',
-        );
-    }
-    else if (window.console) {
-        window.console.log("Hi, I'm Mateusz! Welcome to my portfolio! If you have any technical question, ask me. mate.walendzik@gmail.com");
-    }
-    window.console.log_temp = window.console.log;
-    window.console.log = function(){};
-}
-sayHello();

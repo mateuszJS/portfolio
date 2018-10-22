@@ -96,12 +96,13 @@ function setup() {
     const x = Math.sin(temp_angle) * (0.7 * dimensions.width / 2);
     const y = -Math.cos(temp_angle) * (0.7 * dimensions.height / 2);
     floatButton.distance = Math.sqrt(x * x + y * y);
+
     if (deviceOrientation == 0) {
       floatButton.container.style.transform = 'rotate(0deg)';
-    } else if (-deviceOrientation == 90) {
-      floatButton.container.style.transform = `rotate(${-deviceOrientation}deg) translate3d(${(dimensions.width - dimensions.height) / 2}px, ${(dimensions.width - dimensions.height) / 2}px, 0)`;
     } else if (-deviceOrientation == -90) {
-      floatButton.container.style.transform = `rotate(${-deviceOrientation}deg) translate3d(${(dimensions.height - dimensions.width) / 2}px, ${(dimensions.height - dimensions.width) / 2}px, 0)`;
+      floatButton.container.style.transform = `rotate(${-deviceOrientation}deg) translate3d(${(dimensions.width - dimensions.height) / 2}px, ${(dimensions.width - dimensions.height) / 2}px, 0)`;
+    } else if (-deviceOrientation == 90) {
+      floatButton.container.style.transform = `rotate(${deviceOrientation}deg) translate3d(${(dimensions.height - dimensions.width) / 2}px, ${(dimensions.height - dimensions.width) / 2}px, 0)`;
     }
   }
 
