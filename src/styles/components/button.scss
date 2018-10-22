@@ -25,6 +25,6 @@ $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
 
 .btn-container {
     position: fixed;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    right: 0;
 }

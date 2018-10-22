@@ -9,7 +9,7 @@ const circleData = new Float32Array(circleCount * 2);
 const circlevData = new Float32Array(circleCount * 2);
 const grid = [];
 
-const r = 16;
+const r = 14;
 
 export default class GlueMask extends PIXI.Sprite {
   constructor(renderer, circleTexture, dimensions) {
@@ -22,8 +22,8 @@ export default class GlueMask extends PIXI.Sprite {
     const createSprite = (x, y) => {
       const sprite = new PIXI.Sprite(circleTexture);
       sprite.anchor.set(0.5);
-      sprite.width = 120;
-      sprite.height = 120;
+      sprite.width = 100;
+      sprite.height = 100;
       sprite.x = x;
       sprite.y = y;
       sprite.tint = 0xFF0000;
@@ -169,8 +169,8 @@ export default class GlueMask extends PIXI.Sprite {
                 continue;
 
               // (https://en.wikipedia.org/wiki/Elastic_collision)
-              const cvi = (2 * r * cuj) / 32; // 2 * r
-              const cvj = (2 * r * cui) / 32;
+              const cvi = (2 * r * cuj) / 28; // 2 * r
+              const cvj = (2 * r * cui) / 28;
 
               const dcvi = cvi - cui;
               const dcvj = cvj - cuj;
