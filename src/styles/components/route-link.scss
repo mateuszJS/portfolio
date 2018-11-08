@@ -1,56 +1,69 @@
 .route-link {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 90px;
-  padding: 0;
+  top: 17px;
   background: none;
   border: none;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-family: palanquinregular;
-  &:hover span {
-    letter-spacing: 4px;
-  }
-  &:focus {
-    outline: none;
-  }
-  span {
-    display: block;
-    width: 300px;
-    margin-left: 45px - 150px;
-    color: $color-light-basic;
-    transform: rotate(-90deg);
-    transition: letter-spacing ease 0.5s;
-    pointer-events: none;
-    @media (max-width: $breakpoint-phone) {
-      margin-left: - 130px;
-    }
-  }
+  outline: none;
+
   &--left {
-    left: 0;
-    border-right: 1px solid rgba($color-light-basic, 0.3);
-    @media (max-width: $breakpoint-phone) {
-      border-radius: 0 15px 15px 0;
-      box-shadow: 4px 3px 20px rgba(0, 0, 0, 0.15);
-    }
+    left: 17px;
   }
+
   &--right {
-    width: 90px - 15px;
-    right: 15px; // Space for scrollbar
-    border-left: 1px solid rgba($color-light-basic, 0.3); 
-    @media (max-width: $breakpoint-phone) {
-      border-radius: 15px 0 0 15px;
-      box-shadow: -4px 3px 20px rgba(0, 0, 0, 0.15);
-    }   
+    right: 17px;
   }
-  @media (max-width: $breakpoint-phone) {
-    top: calc(50vh - 80px);
-    height: 120px;
-    width: 40px;
-    background-color: #ffffff;
+
+  span {
+    display: none;
+  }
+
+  img {
+    width: 27px;
+  }
+
+  @include tablet {
+    width: 90px;
+    padding: 0;
+    background: none;
     border: none;
-    z-index: 1;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 16px;
+
+    &--left {
+      left: 0;
+    }
+  
+    &--right {
+      right: 15px;
+    }
+
+    &:hover span {
+      letter-spacing: 4px;
+    }
+    &:focus {
+      outline: none;
+    }
+    span {
+      display: block;
+      width: 300px;
+      margin-left: 45px - 150px;
+      color: green; // $color-light-basic;
+      transform: rotate(-90deg);
+      transition: letter-spacing ease 0.5s;
+      pointer-events: none;
+      // @media (max-width: $breakpoint-phone) {
+      //   margin-left: - 130px;
+      // }
+    }
+    &--left {
+      left: 0;
+      border-right: 1px solid rgba(green, 0.3); // $color-light-basic
+    }
+    &--right {
+      width: 90px - 15px;
+      right: 15px; // Space for scrollbar
+      border-left: 1px solid rgba(green, 0.3); // $color-light-basic
+    }
   }
 }

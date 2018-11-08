@@ -1,4 +1,0 @@
-@mixin filter-gradient($top, $bottom){
-    background: $top;
-    background: linear-gradient(to bottom,  $top 0%,$bottom 100%);
-}

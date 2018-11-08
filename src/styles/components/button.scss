@@ -1,4 +1,4 @@
-$animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
+// $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
 
 .btn {
     position: fixed;
@@ -13,11 +13,12 @@ $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
     font-family: inherit;
     font-size: 1.8rem;
     letter-spacing: 0px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: letter-spacing $animation-params;
-    &:hover {
-        letter-spacing: 10px;
-    }
+    // transition: letter-spacing $animation-params;
+    // &:hover {
+    //     letter-spacing: 10px;
+    // }
     &:focus {
         outline: none;
     }

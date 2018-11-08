@@ -2,27 +2,45 @@
 @import 'settings/fonts';
 @import 'settings/breakpoints';
 
-
 @import 'base/base';
 
 @import 'previewModal';
 
 @import 'components/button';
-@import 'components/link';
+@import 'components/description';
+@import 'components/title';
 @import 'components/tags';
 @import 'components/page';
 @import 'components/wrapper';
 @import 'components/animation-block';
 @import 'components/route-link';
-@import 'components/cursor';
 @import 'components/scroll-bar';
 @import 'components/icon';
 
-@import 'trumps/mainPageAnimation.scss';
-@import 'trumps/animationDelays.scss';
+@import 'trumps/animations.scss';
 
 @import 'components/preview';
 
-@import 'trumps/contact-page';
-@import 'trumps/main-page';
-@import 'trumps/works-page';
+@import 'components/main-page';
+@import 'components/works-page';
+@import 'components/contact-page';
+
+#sensor-test, #orientation-test  {
+  position: fixed;
+  top: 50vh;
+  text-align: center;
+  color: red;
+  font-size: 25px;
+  max-width: 300px;
+  background: #fff;
+  z-index: 99999;
+}
+
+#orientation-test {
+  top: 40vh;
+  color: blue;
+}
+
+#sensor-test, #orientation-test {
+  display: none;
+}

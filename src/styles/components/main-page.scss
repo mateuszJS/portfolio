@@ -1,0 +1,16 @@
+@media (max-height: 400px) {
+  .main-page {
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .title {
+      margin: 0 40px 0 auto;
+    }
+    .description {
+      flex-basis: 50%;
+      text-align: left;
+    }
+  }
+}

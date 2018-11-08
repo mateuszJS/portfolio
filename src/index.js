@@ -8,7 +8,7 @@ import MainPageTemplate from './templates/MainPageTemplate.html';
 import WorksPageTemplate from './templates/WorksPageTemplate.html';
 import listenTouchSwipe from './touchSwipe';
 import addUpdatingTitle from './updateTitle';
-import hideUrlBar from './hideUrlBar';
+import goToFullScreen from './goToFullScreen';
 import sayHello from './sayHello';
 
 var mainElement = document.querySelector('main');
@@ -26,7 +26,7 @@ window.addEventListener('touchstart', function onFirstTouch() {
 }, false);
 
 sayHello();
-hideUrlBar();
+goToFullScreen();
 
 //===========FUNDAMENTAL ADD ELEMENTS FUNCTION================//
 var addElement = function(newContent, classList, container) {
@@ -397,6 +397,16 @@ Router.routes = [
         index: 2,
         initHandler: handlerMainPage,
         events: [
+            {
+                element: '.works-link',
+                type: 'click',
+                handler: redirect.bind('/works')
+            },
+            {
+                element: '.contact-link',
+                type: 'click',
+                handler: redirect.bind('/about')
+            },
             // {
             //     element: '.btn',
             //     type: 'click',

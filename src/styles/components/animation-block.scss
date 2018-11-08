@@ -13,22 +13,4 @@
         opacity: 0;
         transform: scale3d(1.2, 1.2, 1);
     }
-    @media (max-width: $breakpoint-phone) {
-    }
-}
-
-#sensor-test, #orientation-test  {
-    position: fixed;
-    top: 50vh;
-    text-align: center;
-    color: red;
-    font-size: 25px;
-    max-width: 300px;
-    background: #fff;
-    z-index: 99999;
-}
-
-#orientation-test {
-    top: 40vh;
-    color: blue;
 }

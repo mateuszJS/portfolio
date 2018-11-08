@@ -1,13 +1,13 @@
 .wrapper {
   position: relative;
   display: flex;
+  padding: 25px 25px 60px 25px;
   flex-direction: column;
-  padding: 40px;
   overflow: hidden;
-  &--slim {
-    padding: 40px 150px;
-  }
-  @media (max-width: $breakpoint-phone) {
-    padding: 25px 25px 60px 25px;
+  @include tablet {
+    padding: 40px;
+    &--slim {
+      padding: 40px 150px;
+    }
   }
 }

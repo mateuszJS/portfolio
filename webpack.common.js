@@ -35,13 +35,13 @@ module.exports = {
 					}
 				}
 			},
-			{
-				test: /\.svg$/,
-				loader: 'svg-inline-loader'
-			},
+			// {
+			// 	test: /\.svg$/,
+			// 	loader: 'svg-inline-loader'
+			// },
 
 			{
-        test: /\.(png|jpg|woff|woff2|eot|ttf)$/,
+        test: /\.(svg|png|jpg|woff|woff2|eot|ttf)$/,
         oneOf: [
           {
             test: /(bebasneue|Inline)/,
@@ -55,7 +55,7 @@ module.exports = {
 						],
           },
           {
-            test: /\.(png|jpg|woff|woff2|eot|ttf)$/,
+            test: /\.(svg|png|jpg|woff|woff2|eot|ttf)$/,
 						use: [
 							{
 								loader: 'url-loader',

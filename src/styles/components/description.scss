@@ -1,0 +1,24 @@
+%transition-desc {
+  transition: transform 1s ease-in-out,
+              opacity 1s ease-in-out,
+  letter-spacing 1s ease-in-out;
+}
+
+.description {
+  font-size: 18px;
+  letter-spacing: 0.8px;
+  line-height: 1.35em;
+  @extend %transition-desc;
+  //   @media (max-width: $breakpoint-phone) {
+  //       font-size: 0.7em;
+  //       line-height: 1.1em;
+  //   }
+  // .mobile-break-line br {
+  //   @media (max-width: $breakpoint-phone) {
+  //       display: inline;
+  //   }
+  // }
+  // @include tablet {
+
+  // }
+}

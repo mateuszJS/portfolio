@@ -92,17 +92,17 @@ function setup() {
     );
     app.renderer.resize(width, height);
 
-    temp_angle = deviceOrientation  * Math.PI / 180 + Math.PI;
-    const x = Math.sin(temp_angle) * (0.7 * dimensions.width / 2);
-    const y = -Math.cos(temp_angle) * (0.7 * dimensions.height / 2);
+    const btnContainerAngle = deviceOrientation  * Math.PI / 180 + Math.PI;
+    const x = Math.sin(btnContainerAngle) * (0.7 * dimensions.width / 2);
+    const y = -Math.cos(btnContainerAngle) * (0.7 * dimensions.height / 2);
     floatButton.distance = Math.sqrt(x * x + y * y);
 
     if (deviceOrientation == 0) {
       floatButton.container.style.transform = 'rotate(0deg)';
-    } else if (-deviceOrientation == -90) {
+    } else if (deviceOrientation == 90) {
       floatButton.container.style.transform = `rotate(${-deviceOrientation}deg) translate3d(${(dimensions.width - dimensions.height) / 2}px, ${(dimensions.width - dimensions.height) / 2}px, 0)`;
-    } else if (-deviceOrientation == 90) {
-      floatButton.container.style.transform = `rotate(${deviceOrientation}deg) translate3d(${(dimensions.height - dimensions.width) / 2}px, ${(dimensions.height - dimensions.width) / 2}px, 0)`;
+    } else if (deviceOrientation == -90) {
+      floatButton.container.style.transform = `rotate(${-deviceOrientation}deg) translate3d(${(dimensions.height - dimensions.width) / 2}px, ${(dimensions.height - dimensions.width) / 2}px, 0)`;
     }
   }
 
@@ -125,9 +125,9 @@ function setup() {
     const gamma    = Math.round(event.gamma);
     document.querySelector('#sensor-test').innerHTML = `a: ${absolute}, alpha: ${alpha}, b: ${beta}, g:${gamma}, o:${window.orientation}`;
     if (window.orientation == 90) {
-      temp_angle = -(beta * 1.5 + gamma);
+      temp_angle = 90 - beta; // -(beta * 1.5 + gamma);
     } else if (window.orientation == -90) {
-      temp_angle = -(gamma - beta * 1.5);
+      temp_angle = -(90 - beta); // -(gamma - beta * 1.5);
     } else {
       temp_angle = -gamma;
     }
