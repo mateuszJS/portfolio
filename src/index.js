@@ -10,6 +10,7 @@ import listenTouchSwipe from './touchSwipe';
 import addUpdatingTitle from './updateTitle';
 import goToFullScreen from './goToFullScreen';
 import sayHello from './sayHello';
+import fixVhUnits from './fixVhUnits';
 
 var mainElement = document.querySelector('main');
 var canvas = document.querySelector('.animation-block');
@@ -26,6 +27,7 @@ window.addEventListener('touchstart', function onFirstTouch() {
 }, false);
 
 sayHello();
+fixVhUnits();
 goToFullScreen();
 
 //===========FUNDAMENTAL ADD ELEMENTS FUNCTION================//
