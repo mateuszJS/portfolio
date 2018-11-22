@@ -9,6 +9,11 @@
   letter-spacing: 0.8px;
   line-height: 1.35em;
   @extend %transition-desc;
+
+  span {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+
   //   @media (max-width: $breakpoint-phone) {
   //       font-size: 0.7em;
   //       line-height: 1.1em;

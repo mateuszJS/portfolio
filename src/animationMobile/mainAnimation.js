@@ -1,10 +1,10 @@
 import PIXI from './PixiCustomBuild';
 import GlueMask from './GlueMask';
 import GlueFilter from './GlueFilter';
-import spaceBackgroundImage from './assets/space.png';
-import circleMaskImage from './assets/circleSM30newInline.png';
-import floatButtonImage from './assets/floatButton.png';
-import clamp from './utils/clamp';
+import spaceBackgroundImage from '../assets/space.png';
+import circleMaskImage from '../assets/circleSM30newInline.png';
+import floatButtonImage from '../assets/floatButton.png';
+import clamp from '../utils/clamp';
 
 // initial positon is vertical
 const dimensions = {

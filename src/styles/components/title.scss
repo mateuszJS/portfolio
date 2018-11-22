@@ -1,5 +1,12 @@
 .title {
-  display: block;
-  width: 150px;
   margin: 70px auto;
+  color: #666666;
+  font-size: 55px;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 2px;
+  &--image {
+    display: block;
+    width: 150px;
+  }
 }

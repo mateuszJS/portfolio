@@ -1,6 +1,7 @@
 .tags-list {
     display: flex;
-    margin: 0 5px;
+    margin: auto;
+    max-width: 575px;
     flex-wrap: wrap;
     justify-content: center;
     &--hidden {

@@ -1,13 +1,24 @@
-const goToFullScreen = () => {
-	// document.addEventListener('click', () => {
-	// 	const docEl = window.document.documentElement;
-	// 	const requestFullScreen =
-	// 		docEl.requestFullscreen ||
-	// 		docEl.mozRequestFullScreen ||
-	// 		docEl.webkitRequestFullScreen ||
-	// 		docEl.msRequestFullscreen;
-	// 	requestFullScreen.call(docEl);
-	// });
+const docEl = window.document.documentElement;
+const requestFullScreen =
+	docEl.requestFullscreen ||
+	docEl.mozRequestFullScreen ||
+	docEl.webkitRequestFullScreen ||
+	docEl.msRequestFullscreen;
+
+const cancelFullScreen =
+	docEl.exitFullscreen ||
+	docEl.mozCancelFullScreen |
+	docEl.webkitExitFullscreen ||
+	docEl.msExitFullscreen;
+
+export const goToFullScreen = () => {
+	if (requestFullScreen) {
+		requestFullScreen.call(docEl);
+	}
 }
 
-export default goToFullScreen;
+export const leftFullScreen = () => {
+	if (cancelFullScreen) {
+		cancelFullScreen.call(docEl);
+	}
+}

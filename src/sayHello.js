@@ -16,7 +16,7 @@ const sayHello = () => {
       window.console.log("Hi, I'm Mateusz! Welcome to my portfolio! If you have any technical question, ask me. mate.walendzik@gmail.com");
   }
   window.console.log_temp = window.console.log;
-  window.console.log = function(){};
+//   window.console.log = function(){};
 }
 
 export default sayHello;

@@ -44,3 +44,14 @@
 #sensor-test, #orientation-test {
   display: none;
 }
+
+#Warstwa_1 {
+  position: fixed;
+  bottom: 0;
+  left: calc(50vw - 300px + 17px);
+}
+//
+html {
+  height: 100vh;
+  background : radial-gradient(farthest-corner at 50.75% 85.32%, #162259 0%, #081139 50%, #000214 100%)
+}

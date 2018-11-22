@@ -14,7 +14,8 @@ module.exports = {
 	},
 	entry: {
 		index: `${__dirname}/src/index.js`,
-		animation: `${__dirname}/src/mainAnimation.js`,
+		// animationMobile: `${__dirname}/src/animationMobile/mainAnimation.js`,
+		// animationDekstop: `${__dirname}/src/animationDesktop/mainAnimation.js`,
 		prefetchImages: `${__dirname}/src/prefetch-images.js`,
 	},
 	output: {
@@ -35,6 +36,7 @@ module.exports = {
 					}
 				}
 			},
+
 			// {
 			// 	test: /\.svg$/,
 			// 	loader: 'svg-inline-loader'

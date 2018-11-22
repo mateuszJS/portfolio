@@ -8,9 +8,11 @@ import MainPageTemplate from './templates/MainPageTemplate.html';
 import WorksPageTemplate from './templates/WorksPageTemplate.html';
 import listenTouchSwipe from './touchSwipe';
 import addUpdatingTitle from './updateTitle';
-import goToFullScreen from './goToFullScreen';
+import { goToFullScreen, leftFullScreen } from './goToFullScreen';
 import sayHello from './sayHello';
 import fixVhUnits from './fixVhUnits';
+
+import './handleHeroSvg';
 
 var mainElement = document.querySelector('main');
 var canvas = document.querySelector('.animation-block');
@@ -21,14 +23,12 @@ if (window.isDesktop) {
     addUpdatingTitle();
 }
 
-window.addEventListener('touchstart', function onFirstTouch() {
+if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
     isTouchDevice = true;
-    window.removeEventListener('touchstart', onFirstTouch, false);
-}, false);
+}
 
 sayHello();
 fixVhUnits();
-goToFullScreen();
 
 //===========FUNDAMENTAL ADD ELEMENTS FUNCTION================//
 var addElement = function(newContent, classList, container) {
@@ -99,6 +99,7 @@ var closePreview = function(event) {
         mainElement.querySelector('.preview-modal').classList.add('modal-hidden');
         history.replaceState('works', null, '/works');
         if (isTouchDevice) {
+            leftFullScreen();
             mainElement.querySelector('.page').removeEventListener("touchmove", freezeTouch, false);
         }
     }
@@ -150,15 +151,28 @@ var showModal = function(id) {
     if(modal) {
         var modalImg = modal.querySelector('.preview-modal__picture');
         if(modal.classList.contains('modal-hidden')) {
+            goToFullScreen();
             modal.classList.remove('modal-hidden');
-            modalImg.sizes = '(max-width: '+allPreviews[id-1].maxwidth+'px) 100vw, '+allPreviews[id-1].maxwidth+'px';
-            modalImg.srcset = allPreviews[id-1].srcset;
-            modalImg.src = allPreviews[id-1].src;
+
+            const newImg = document.createElement('IMG');
+            newImg.sizes = '(max-width: '+allPreviews[id-1].maxwidth+'px) 100vw, '+allPreviews[id-1].maxwidth+'px';
+            newImg.srcset = allPreviews[id-1].srcset;
+            newImg.src = allPreviews[id-1].src;
+            newImg.classList.add('preview-modal__picture', 'animated');
+            modal.insertBefore(newImg, modalImg);
+            modal.removeChild(modalImg);
+
+
+            
+            // modalImg.sizes = '(max-width: '+allPreviews[id-1].maxwidth+'px) 100vw, '+allPreviews[id-1].maxwidth+'px';
+            // modalImg.srcset = allPreviews[id-1].srcset;
+            // modalImg.src = allPreviews[id-1].src;
         } else {
             isPreviewTransition = true;
             var movePreview = function() {
                 newImg.removeEventListener('transitionend', movePreview);
-                modalImg.parentNode.removeChild(modalImg);
+                modal.classList.add('loader'); // display loader behind img
+                modal.removeChild(modalImg);
                 isPreviewTransition = false;
             }
             var direction;
@@ -168,19 +182,22 @@ var showModal = function(id) {
             else if(currentPreview < id) direction = 'right';
             else direction = 'left';
 
-            var newImg = modalImg.cloneNode(true);
+            // var newImg = modalImg.cloneNode(true);
+            const newImg = document.createElement('IMG');
             newImg.sizes = '(max-width: '+allPreviews[id-1].maxwidth+'px) 100vw, '+allPreviews[id-1].maxwidth+'px';
             newImg.srcset = allPreviews[id-1].srcset;
             newImg.src = allPreviews[id-1].src;
-            newImg.classList.add(direction);
-            modalImg.parentNode.insertBefore(newImg, modalImg.nextSibling);
+            newImg.classList.add(direction, 'preview-modal__picture', 'animated');
+            modal.insertBefore(newImg, modalImg.nextSibling);
             window.getComputedStyle(newImg).opacity;
             newImg.classList.remove(direction);
             var oppositeDirection = direction === 'left' ? 'right' : 'left';
             modalImg.classList.add(oppositeDirection);
             newImg.addEventListener('transitionend', movePreview);
+            modal.classList.remove('loader');
         }
     } else {
+        goToFullScreen();
         displayActionGroup = true;
         var newContent = '<img sizes="(max-width: '+allPreviews[id-1].maxwidth+'px) 100vw, '+allPreviews[id-1].maxwidth+'px" srcset="'+allPreviews[id-1].srcset+'" src="'+allPreviews[id-1].src+'" class="preview-modal__picture animated"/>\
                           <div class="preview-modal__action-group animated">\
@@ -367,16 +384,16 @@ var onScroll = function(e) {
     var isMobileResolution = window.innerWidth < 768;
     var windowPartHeight = {
         start: window.innerHeight * 0.1,
-        end: window.innerHeight * (isMobileResolution ? 0.75 : 0.65),
+        end: window.innerHeight * (isMobileResolution ? 1.1 : 0.65),
     }
     for(var i = 0; i < previewPos.length; i++) {
         var previewElement = document.querySelector('.preview-' + (i + 1));
         previewElement.classList.remove('preview--active');
         var offsetY = (isMobileResolution ?
-            i * (window.innerWidth * 0.54) + 80 :
+            i * (window.innerWidth * 0.494 + 80) + 315 :
             previewPos[i].y * viewPortWidth)
             - scrollVal + 85;
-        if(windowPartHeight.start < offsetY && offsetY < windowPartHeight.end) {
+        if (windowPartHeight.start < offsetY && offsetY < windowPartHeight.end) {
             previewElement.classList.add('preview--active');
         }
     }
