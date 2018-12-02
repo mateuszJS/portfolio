@@ -123,7 +123,6 @@ function setup() {
     const alpha    = Math.round(event.alpha);
     const beta     = Math.round(event.beta);
     const gamma    = Math.round(event.gamma);
-    document.querySelector('#sensor-test').innerHTML = `a: ${absolute}, alpha: ${alpha}, b: ${beta}, g:${gamma}, o:${window.orientation}`;
     if (window.orientation == 90) {
       temp_angle = 90 - beta; // -(beta * 1.5 + gamma);
     } else if (window.orientation == -90) {

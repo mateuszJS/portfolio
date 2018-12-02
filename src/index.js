@@ -7,21 +7,16 @@ import ContactPageTemplate from './templates/ContactPageTemplate.html';
 import MainPageTemplate from './templates/MainPageTemplate.html';
 import WorksPageTemplate from './templates/WorksPageTemplate.html';
 import listenTouchSwipe from './touchSwipe';
-import addUpdatingTitle from './updateTitle';
-import { goToFullScreen, leftFullScreen } from './goToFullScreen';
 import sayHello from './sayHello';
 import fixVhUnits from './fixVhUnits';
 
-import './handleHeroSvg';
-
 var mainElement = document.querySelector('main');
 var canvas = document.querySelector('.animation-block');
+var svg = document.querySelector('.svg-container');
 var listeners = [];
 var isTouchDevice = false;
 
-if (window.isDesktop) {
-    addUpdatingTitle();
-}
+document.body.classList.add(window.isDesktop ? 'desktop' : 'mobile');
 
 if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
     isTouchDevice = true;
@@ -61,11 +56,13 @@ var handlerMainPage = function(oldRoute, transClass) {
     pageAnimationInit(oldRoute, transClass);
     window.toggleRFA();
     canvas.classList.toggle('active');
+    svg.classList.toggle('active');
 }
 
 var willUnmountMainPage = function() {
     window.toggleRFA();
     canvas.classList.toggle('active');
+    svg.classList.toggle('active');
 }
 
 var handlerWorksPreview = function(oldRoute, transClass, id) {
@@ -99,7 +96,6 @@ var closePreview = function(event) {
         mainElement.querySelector('.preview-modal').classList.add('modal-hidden');
         history.replaceState('works', null, '/works');
         if (isTouchDevice) {
-            leftFullScreen();
             mainElement.querySelector('.page').removeEventListener("touchmove", freezeTouch, false);
         }
     }
@@ -151,7 +147,6 @@ var showModal = function(id) {
     if(modal) {
         var modalImg = modal.querySelector('.preview-modal__picture');
         if(modal.classList.contains('modal-hidden')) {
-            goToFullScreen();
             modal.classList.remove('modal-hidden');
 
             const newImg = document.createElement('IMG');
@@ -197,7 +192,6 @@ var showModal = function(id) {
             modal.classList.remove('loader');
         }
     } else {
-        goToFullScreen();
         displayActionGroup = true;
         var newContent = '<img sizes="(max-width: '+allPreviews[id-1].maxwidth+'px) 100vw, '+allPreviews[id-1].maxwidth+'px" srcset="'+allPreviews[id-1].srcset+'" src="'+allPreviews[id-1].src+'" class="preview-modal__picture animated"/>\
                           <div class="preview-modal__action-group animated">\
@@ -426,11 +420,11 @@ Router.routes = [
                 type: 'click',
                 handler: redirect.bind('/about')
             },
-            // {
-            //     element: '.btn',
-            //     type: 'click',
-            //     handler: redirect.bind('/works')
-            // },
+            {
+                element: '.btn-tablet',
+                type: 'click',
+                handler: redirect.bind('/works')
+            },
             // {
             //     element: '.link',
             //     type: 'click',

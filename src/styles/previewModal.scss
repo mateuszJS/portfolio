@@ -18,12 +18,9 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(#fff, 0.8);
+    background-color: rgba(#000, 0.75);
     opacity: 1;
-    z-index: 1;
-    // @media (max-width: $breakpoint-phone) {
-    //     z-index: 1;
-    // }
+    z-index: 2;
     &.loader::before {
         content: '';
         display: block;
@@ -57,7 +54,7 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
     }
     &__btn {
         position: absolute;
-        background-color: rgba(#000, 0.5);
+        background-color: rgba(#000, 0.7);
         opacity: 0.5;
         margin-top: -15vw;
         width: 30vw;
@@ -66,12 +63,6 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
         border: none;
         transition: $transition;
         cursor: pointer;
-        // @media (max-width: $breakpoint-phone) {
-        //     margin-top: -20vw;
-        //     width: 40vw;
-        //     height: 40vw;
-        //     opacity: 0.75;
-        // }
         &:before, &:after {
             display: block;
             content: '';
@@ -86,16 +77,9 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
             position: relative;
             top: 12px;
             transform: translateX(3vw) rotate(45deg);
-            // @media (max-width: $breakpoint-phone) {
-            //     top: 6px;
-            // }
         }
         &:after {
             transform: translateX(3vw) rotate(-45deg);
-            // @media (max-width: $breakpoint-phone) {
-            //     position: relative;
-            //     top: -5px;
-            // }
         }
         &:hover {
             opacity: 1;
@@ -153,26 +137,6 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
         }
     }
     &__action-group {
-        // @media (min-width: $breakpoint-phone-up) {
-        //     &.deactivate {
-        //         .preview-modal__close-btn {
-        //             opacity: 0;
-        //             transform: translateY(-50px);
-        //         }
-        //         .preview-modal__btn--left {
-        //             opacity: 0;
-        //             transform: translateX(-50px) rotate(180deg);
-        //         }
-        //         .preview-modal__btn--right {
-        //             opacity: 0;
-        //             transform: translateX(50px);
-        //         }
-        //         .preview-modal__info {
-        //             opacity: 0;
-        //             transform: translateX(50px);
-        //         }
-        //     }
-        // }
         .preview-modal__btn--left:hover {
             opacity: 1;
             transform: translateX(0px) rotate(180deg);

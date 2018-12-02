@@ -1,3 +1,9 @@
+import clamp from './utils/clamp'
+import contentSVG from './svgFile'
+
+const SVGnode = document.querySelector('.svg-container')
+SVGnode.innerHTML = contentSVG
+
 const blueColor = '#6ccef3'
 const purpleColor = '#2b1554'
 const startX = 140//300
@@ -91,7 +97,12 @@ const updateEye = (progressX, progressY, domeCenterX) => {
   const matrixF = eyeSize / 2 - scaleY * eyeSize / 2
   $eye.setAttribute('transform', `translate(${translateX}, ${translateY}), skewX(${skewX}), matrix(${scaleX}, 0, 0, ${scaleY}, ${matrixE}, ${matrixF})`)
 
-  return { normalDistance, angle }
+  return {
+    normalDistance,
+    angle,
+    eyeX: translateX,
+    eyeY: translateY,
+  }
 }
 
 
@@ -114,9 +125,6 @@ const updatePipe = (progressX, domeCenterX, normalDistance, angle) => {
   const matrixE = originX - 1 * originX
   const matrixF = originY - scaleY * originY
   $pipe.setAttribute('transform', `translate(${translateX}, ${translateY}), rotate(${angleInDeg}, ${originX}, ${originY}), matrix(1, 0, 0, ${scaleY}, ${matrixE}, ${matrixF})`)
-  // TODO: pipe should be rounded in origin!
-  // but this rounded end shouldn't be part of pipe, it another element (to avoid scaling)
-  // end on pipe should be only rotated
 }
 
 const lights = [
@@ -125,22 +133,166 @@ const lights = [
   { node: $rightLight, progress: 0.2 },
 ]
 const updateLights = (progressX) => {
-  const convertedProgress = progressX + 1;
+  const convertedProgress = progressX + 1
   lights.forEach(light => {
-    const diff = (2 - Math.abs(convertedProgress - light.progress)) / 2;
-    light.node.style.opacity = diff * diff;
+    const diff = (2 - Math.abs(convertedProgress - light.progress)) / 2
+    light.node.style.opacity = diff * diff
   });
 }
 
 
+const $sightLine = $svg.querySelector('#sight-line')
+const sightLineHeight = 243
+const sightLineWidth = 97
+const sightLineOffsetY = 46
+const updateSight = (startX, startY, progressX, progressY, angle) => {
+
+  const originX = sightLineWidth / 2
+  const originY = sightLineHeight + sightLineOffsetY 
+
+  const translateX =  landOffsetX + startX + pipeOffsetX - originX + 7 // I don't know why exactly 7
+  const translateY =  landOffsetY + startY - originY + eyeSize / 2
+
+  const distance = Math.hypot(
+    progressX * window.innerWidth / 2,
+    (1 - progressY) * window.innerHeight
+  )
+
+  const scaleY = (distance - sightLineOffsetY) / sightLineHeight
+
+  const angleInDeg = angle * 180 / Math.PI
+  const matrixE = originX - 1 * originX
+  const matrixF = originY - scaleY * originY
+  if (distance < 200) {
+    $sightLine.setAttribute('opacity', Math.pow(distance / 300, 2))
+  } else {
+    $sightLine.setAttribute('opacity', 1)
+  }
+  $sightLine.setAttribute('transform', `translate(${translateX}, ${translateY}), rotate(${angleInDeg}, ${originX}, ${originY}), matrix(1, 0, 0, ${scaleY}, ${matrixE}, ${matrixF})`)
+}
+
+const landHeight = 150
+const mouse = { x: 0, y: 0 }
+
 const updateMousePosition = (event) => {
   const halfWidth = innerWidth / 2
   const progressX = (event.clientX - halfWidth) / halfWidth
-  const progressY = event.clientY / window.innerHeight
+  const progressY = Math.min(window.innerHeight, event.clientY + landHeight) / window.innerHeight
   const domeCenterX = updateDome(progressX)
-  const { normalDistance, angle } = updateEye(progressX, progressY, domeCenterX)
+  const { normalDistance, angle, eyeX, eyeY } = updateEye(progressX, progressY, domeCenterX)
   updatePipe(progressX, domeCenterX, normalDistance, angle)
-  updateLights(progressX);
+  updateLights(progressX)
+  updateSight(eyeX, eyeY, progressX, progressY, angle)
+
+  mouse.x = event.clientX
+  mouse.y = event.clientY
+  handleAlienIsDetected()
 }
 
+const $alienShip = $svg.querySelector('#alien-ship')
+const currPos = { x: 0, y: 0 }
+const shipSpeed = 30;
+const shipWidth = 125
+const shipheight = 45
+const shadows = [
+  $svg.querySelector('#alien-ship-copy-1'),
+  $svg.querySelector('#alien-ship-copy-2'),
+  $svg.querySelector('#alien-ship-copy-3'),
+  $svg.querySelector('#alien-ship-copy-4'),
+  $svg.querySelector('#alien-ship-copy-5'),
+]
+
+const maxTravel = window.innerWidth * 0.25;
+const getNewTarget = () => {
+  const x = Math.random() * (window.innerWidth * 0.8) + (window.innerWidth * 0.1)
+  const y = Math.random() * (window.innerHeight * 0.4) + (window.innerHeight * 0.1)
+  return {
+    x: clamp(currPos.x - maxTravel, x, currPos.x + maxTravel),
+    y: clamp(currPos.y - maxTravel, y, currPos.y + maxTravel),
+  }
+}
+
+const handleAlienIsDetected = () => {
+  const dis = Math.hypot(currPos.x - mouse.x, currPos.y - mouse.y)
+  if (dis < 150) {
+    updateAlienShip()
+  }
+}
+
+let duringAnimation = false
+const updateAlienShip = () => {
+  if (duringAnimation) return;
+  duringAnimation = true
+  
+  let alphas = [0, 0, 0, 0, 0]
+  const targetPos = getNewTarget()
+  const distance = Math.hypot(currPos.x - targetPos.x, currPos.y - targetPos.y)
+  let time = 0
+  const fullTime = distance / shipSpeed;
+  const modX = (targetPos.x - currPos.x) / fullTime
+  const modY = (targetPos.y - currPos.y) / fullTime
+
+  const update = () => {
+
+    alphas = alphas.map((alpha, index) => {
+      if (alpha > 0) {
+        const newAlpha = alpha - 0.03
+        shadows[index].setAttribute('opacity', newAlpha)
+        return newAlpha
+      }
+      return 0
+    });
+
+    time++;
+    if (time < fullTime) {
+      currPos.x += modX
+      currPos.y += modY
+      $alienShip.setAttribute('transform', `translate(${currPos.x}, ${currPos.y})`)
+    }
+
+    const lastShadow = Math.floor((time / fullTime) * alphas.length)
+    if (alphas[lastShadow] === 0) {
+      shadows[lastShadow].setAttribute('transform', `translate(${currPos.x}, ${currPos.y})`)
+      alphas[lastShadow] = 1
+    }
+
+    const isStillTransition = alphas.some(alpha => alpha > 0)
+    if (time < fullTime || isStillTransition) {
+      requestAnimationFrame(update);
+    } else {
+      duringAnimation = false
+      handleAlienIsDetected()
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+updateAlienShip()
+
+const $land = $svg.querySelector('#land');
+const landWidth = 410;
+const landOffsetX = window.innerWidth / 2 - landWidth / 2
+const landOffsetY = window.innerHeight - 374
+$land.setAttribute('transform', `translate(${landOffsetX},${landOffsetY})`);
+
+
+const starWidth = 1304
+const starHeight = 360
+const $stars = $svg.querySelector('.stars')
+$stars.setAttribute('transform', `translate(${window.innerWidth * 0.05}, ${window.innerHeight * 0.05}) scale(${window.innerWidth * 0.9 / starWidth}, ${window.innerHeight * 0.45 / starHeight})`)
+
+const $space = $svg.querySelector('#space')
+const spaceWidth = window.innerWidth * 0.95
+const spaceHeight = window.innerHeight
+
+const handleResize = () => {
+  $svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
+  $svg.setAttribute('height', window.innerHeight);
+  $svg.setAttribute('width', window.innerWidth);
+  $space.setAttribute('transform', `translate(${(window.innerWidth - spaceWidth) / 2 - 17}, ${(window.innerHeight - spaceHeight)})`)
+}
+handleResize();
+
+window.addEventListener('resize', handleResize)
 document.addEventListener('mousemove', updateMousePosition)

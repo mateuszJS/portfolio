@@ -14,8 +14,8 @@ module.exports = {
 	},
 	entry: {
 		index: `${__dirname}/src/index.js`,
-		// animationMobile: `${__dirname}/src/animationMobile/mainAnimation.js`,
-		// animationDekstop: `${__dirname}/src/animationDesktop/mainAnimation.js`,
+		animationMobile: `${__dirname}/src/animationMobile/mainAnimation.js`,
+		animationDekstop: `${__dirname}/src/handleHeroSvg.js`,
 		prefetchImages: `${__dirname}/src/prefetch-images.js`,
 	},
 	output: {

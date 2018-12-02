@@ -56,13 +56,6 @@
   }
 }
 
-.contact-page {
-  // @media (max-width: $breakpoint-phone) {
-  //   .description__md {
-  //     font-size: 1.2em;
-  //   }
-  //   .wrapper {
-  //     padding: 25px 0 60px;
-  //   }
-  // }
+.mobile .social-link a, .mobile .link-mailto {
+  color: $color-second;
 }

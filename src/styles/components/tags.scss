@@ -19,11 +19,10 @@
         font-size: 16px;
         letter-spacing: -0.5px;
         text-decoration: none;
+        overflow: hidden;
         transition: transform 1s ease,
                     opacity 1s ease;
-        // @media (max-width: $breakpoint-phone) {
-        //     font-size: 16px;
-        // }
+
         .icon {
             color: #ffffff;
             margin-left: 6px;
@@ -47,15 +46,7 @@
     &__space {
         display: none;
         flex-basis: 100%;
-        // @media (max-width: $breakpoint-phone) {
-        //     display: none;
-        // }
     }
-    // @media (max-width: $breakpoint-phone) {
-    //     margin-left: auto;
-    //     margin-right: auto;
-    //     width: 340px;
-    // }
 }
 
 .tags-list__tag:hover {
@@ -64,6 +55,6 @@
         opacity: 0;
     }
     span {
-        transform: translate3d(15px, 0, 0);
+        transform: translate3d(11px, 0, 0);
     }
 }
