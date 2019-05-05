@@ -27,19 +27,14 @@
     <script>
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       window.isDesktop = false;
-      window.isMobile = true;
     } else {
       window.isDesktop = true;
-      window.isMobile = false;
     }
+    window.isMobile = !window.isDesktop;
     </script>
   </head>
   <body>
-    <div class="svg-container"></div>
     <canvas class="animation-block"></canvas>
-    <div class="btn-container">
-      <button class="btn">Works</button>
-    </div>
     <main></main>
   </body>
 </html>

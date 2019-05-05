@@ -7,22 +7,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
-
 module.exports = merge(common, {
 	module: {
 		rules: [
-			
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['env']
-					}
-				}
-			},
-
 			{
 				test: /\.scss$/,
 				exclude: /node_modules/,
@@ -35,30 +22,6 @@ module.exports = merge(common, {
 					],
 				}),
 			},
-
-			// {
-			// 	test: /\.(gif|png|jpe?g|svg)$/i,
-			// 	use: [
-			// 		'file-loader',
-			// 		{
-			// 			loader: 'image-webpack-loader',
-			// 			options: {
-			// 				mozjpeg: {
-			// 					progressive: true,
-			// 					quality: 65
-			// 				},
-			// 				optipng: {
-			// 					enabled: false,
-			// 				},
-			// 				pngquant: {
-			// 					quality: '65-90',
-			// 					speed: 4
-			// 				},
-			// 			}
-			// 		},
-			// 	],
-			// }
-
 		],
 	},
 	plugins: [

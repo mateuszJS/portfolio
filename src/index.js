@@ -7,62 +7,55 @@ import ContactPageTemplate from './templates/ContactPageTemplate.html';
 import MainPageTemplate from './templates/MainPageTemplate.html';
 import WorksPageTemplate from './templates/WorksPageTemplate.html';
 import listenTouchSwipe from './touchSwipe';
-import sayHello from './sayHello';
 import fixVhUnits from './fixVhUnits';
 
 var mainElement = document.querySelector('main');
 var canvas = document.querySelector('.animation-block');
-var svg = document.querySelector('.svg-container');
 var listeners = [];
 var isTouchDevice = false;
 
-document.body.classList.add(window.isDesktop ? 'desktop' : 'mobile');
-
 if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
-    isTouchDevice = true;
+  isTouchDevice = true;
 }
 
-sayHello();
+document.body.classList.add(window.isDesktop ? 'desktop' : 'mobile');
+
 fixVhUnits();
 
 //===========FUNDAMENTAL ADD ELEMENTS FUNCTION================//
 var addElement = function(newContent, classList, container) {
-    var div = document.createElement('div');//create div for page container
-    div.className = classList;//too avoid replacing whole content of <main> tag
-    div.innerHTML = newContent;//at one time
-    var parent = container || mainElement;
-    parent.appendChild(div);
+  var div = document.createElement('div');//create div for page container
+  div.className = classList;//too avoid replacing whole content of <main> tag
+  div.innerHTML = newContent;//at one time
+  var parent = container || mainElement;
+  parent.appendChild(div);
 };
 
 
 var pageAnimationInit = function(oldRoute, transClass) {
-    if(transClass) {
-        animateRoute(oldRoute, transClass);
-    } else {
-        Router.isTrainsition = false;//if we don't need tranistion
-    }
+  if(transClass) {
+    animateRoute(oldRoute, transClass);
+  } else {
+    Router.isTrainsition = false; // if we don't need tranistion
+  }
 }
 
-if(!window.toggleRFA) {//so secondary file with main animation isn't loaded
-    window.toggleRFA = function() {
-        window.runAnimation = {
-            router: Router
-        }
-    };
+if (!window.toggleRFA) {
+  window.toggleRFA = () => {}
 }
 
 var handlerMainPage = function(oldRoute, transClass) {
     addElement(MainPageTemplate, "page main-page " + transClass);
     pageAnimationInit(oldRoute, transClass);
     window.toggleRFA();
+    // NOTE: toggleRFA is property of window because it shouldn't be imported into this file,
+    // it should be loaded as totally apart part 
     canvas.classList.toggle('active');
-    svg.classList.toggle('active');
 }
 
 var willUnmountMainPage = function() {
     window.toggleRFA();
     canvas.classList.toggle('active');
-    svg.classList.toggle('active');
 }
 
 var handlerWorksPreview = function(oldRoute, transClass, id) {
@@ -401,7 +394,10 @@ var onMountedWorksPage = function() {
     // Turn of sear
 }
 
-document.querySelector('.btn').addEventListener('click', redirect.bind('/works'));
+// NOTE: only if it's the mobile view
+if (window.isMobile) {
+  window.floatButtonClickHandler = redirect.bind('/works')
+}
 
 Router.routes = [
     {

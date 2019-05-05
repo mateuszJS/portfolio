@@ -1,16 +1,24 @@
 .animation-block {
-    /*IT'S AMAZING IMPORTANT FOR OPTIMALIZATION, IT'S SAVE AROUND 10% OF GPU*/
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: -1;
-    /*END OF AMAZING PART*/
-    pointer-events: none;
-    transform-origin: 50% 100%;
-    transition: opacity ease 0.5s,
-                transform ease 0.5s;
-    &:not(.active) {
-        opacity: 0;
-        transform: scale3d(1.2, 1.2, 1);
-    }
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  display: block;
+  transform: scale3d(0.8, 0.8, 1);
+  transform-origin: 50% 100%;
+  opacity: 0;
+  transition: opacity ease 0.5s,
+              transform ease 0.5s;
+  &.active {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.mobile .animation-block {
+  width: auto;
+  height: auto;
 }

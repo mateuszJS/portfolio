@@ -1,22 +1,17 @@
 "use strict";
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
+const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-
-const HOST = process.env.HOST || "127.0.0.1";
-const PORT = process.env.PORT || "7777";
 
 module.exports = {
-	node: {
-		fs: 'empty'
-	},
+  resolve: {
+    extensions: ['.ts', '.js', '.glsl' ]
+  },
 	entry: {
 		index: `${__dirname}/src/index.js`,
-		animationMobile: `${__dirname}/src/animationMobile/mainAnimation.js`,
-		animationDekstop: `${__dirname}/src/handleHeroSvg.js`,
+		animationMobile: `${__dirname}/src/animationMobile/mainAnimation.ts`,
+		// animationDesktop: `${__dirname}/src/animationDesktop/mainAnimation.ts`,
 		prefetchImages: `${__dirname}/src/prefetch-images.js`,
+		sayHello: `${__dirname}/src/sayHello.js`,
 	},
 	output: {
 		path: `${__dirname}/dist`,
@@ -25,6 +20,11 @@ module.exports = {
 	},
 	module: {
 		rules: [
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
@@ -32,7 +32,6 @@ module.exports = {
 					loader: 'babel-loader',
 					options: {
 						presets: ['env'],
-						plugins: ["static-fs"]
 					}
 				}
 			},
@@ -66,10 +65,16 @@ module.exports = {
 								}
 							}
 						],
-          }
+          },
         ]
 			},
-			
+      {
+        test: /\.glsl$/,
+        use: [
+          'glsl-shader-loader',
+          // path.resolve(__dirname, 'loader.js'),
+        ]
+      },
 			{
 				test: /\.html$/,
 				exclude: /node_modules/,
@@ -77,24 +82,9 @@ module.exports = {
 			},
 		]
 	},
-	devServer: {
-		contentBase: "./dist",
-		// enable HMR
-		hot: true,
-		// embed the webpack-dev-server runtime into the bundle
-		inline: true,
-		port: PORT,
-		host: HOST
-	},
 	plugins: [
-		new UglifyJSPlugin({
-			compress: true
-		}),
 	  new HtmlWebpackPlugin({
 	    template: 'src/template.html'
-		}),
-		new CopyWebpackPlugin([
-			{ from: 'src/assets/export/*', to: './', flatten: true }
-		])
+		})
 	]
 }

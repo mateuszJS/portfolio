@@ -6,8 +6,6 @@ const common = require('./webpack.common.js');
 const HOST = "127.0.0.1";
 const PORT = "7777";
 
-
-
 module.exports = merge(common, {
 	devtool: 'eval-source-map',
 	devServer: {

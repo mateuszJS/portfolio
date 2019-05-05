@@ -1,5 +1,3 @@
-import PIXI from './PixiCustomBuild';
-
 const circleCount = 120;
 
 const gridWidth = 20;
@@ -7,36 +5,53 @@ const gridHeight = 20;
 
 const circleData = new Float32Array(circleCount * 2);
 const circlevData = new Float32Array(circleCount * 2);
-const grid = [];
+const grid: number[][][] = [];
 
 const r = 14;
+const spaceBetween = 2
+// const CANVAS_PADDING = 200;
+// const groupSize = 100;
+// const randomPos = () => Math.random() * groupSize - groupSize / 2;
 
-export default class GlueMask extends PIXI.Sprite {
-  constructor(renderer, circleTexture, dimensions) {
-    const renderTexture = new PIXI.RenderTexture.create(dimensions.width, dimensions.height);
-    super(renderTexture);
-    this.renderer = renderer;
+// const PARTICLES_IN_GROUP = 15
+// const GROUPS = 3
+// const FRAMES = 100
+// const SPEED = 1
+// const MAX_TIME = FRAMES * Math.PI
 
-    this.container = new PIXI.Container();
+export interface IParticle extends Point {}
 
-    const createSprite = (x, y) => {
-      const sprite = new PIXI.Sprite(circleTexture);
-      sprite.anchor.set(0.5);
-      sprite.width = 100;
-      sprite.height = 100;
-      sprite.x = x;
-      sprite.y = y;
-      sprite.tint = 0xFF0000;
-      this.container.addChild(sprite);
-      return sprite;
-    }
+export default class GluePsyhic {
+  private width: number
+  private height: number
+  public circles: IParticle[]
+
+  constructor(width: number, height: number) {
+    this.width = width
+    this.height = height
+    this.circles = []
     
-    this.circles = [];
-    this.init(dimensions.width, dimensions.height, createSprite);
+    const numberCirclesInRow = this.width / (r + spaceBetween);
+    for (let i = 0; i < circleData.length; i += 2) {
+
+      const x = (i % numberCirclesInRow) * (r + spaceBetween);
+      const y = this.height - Math.floor(i / numberCirclesInRow) * (r + spaceBetween);
+
+      
+      circleData[i] = x;
+      circleData[i + 1] = y;
+
+      circlevData[i] = (Math.random() - 0.5) * 0.5;
+      circlevData[i + 1] = (Math.random() - 0.5) * 0.5;
+      const particle: IParticle = {
+        x,
+        y,
+      }
+      this.circles.push(particle);
+    }
   }
 
-
-  detectCircleCollision (x1, y1, x2, y2) {
+  private detectCircleCollision (x1: number, y1: number, x2: number, y2: number) {
     // before circle intersection, check bounding box intersection
     if (x1 + r < x2 - r || x1 - r > x2 + r ||
         y1 + r < y2 - r || y1 - r > y2 + r)
@@ -45,33 +60,14 @@ export default class GlueMask extends PIXI.Sprite {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) <= r + r;
   }
 
-  init (displayWidth, displayHeight, createSprite) {
-    const spaceBetween = 2;
-    const numberCirclesInRow = displayWidth / (r + spaceBetween);
-    for (let i = 0; i < circleData.length; i += 2) {
-
-      const x = (i % numberCirclesInRow) * (r + spaceBetween);
-      const y = displayHeight - Math.floor(i / numberCirclesInRow) * (r + spaceBetween);
-
-      
-      circleData[i] = x;
-      circleData[i + 1] = y;
-
-      circlevData[i] = (Math.random() - 0.5) * 0.5;
-      circlevData[i + 1] = (Math.random() - 0.5) * 0.5;
-      this.circles.push(createSprite(x, y));
-    }
-  }
-
-
-  timeStep (displayWidth, displayHeight, gravityAngle) {
+  timeStep (gravityAngle: number) {
     const modX = Math.sin(gravityAngle) * 0.1;
     const modY = -Math.cos(gravityAngle) * 0.1;
     // initialize the grid
     for (let p = 0; p < gridWidth; p++) {
       const col = grid[p] = [];
       for (let q = 0; q < gridHeight; q++) {
-        col[q] = [];
+        col[q] = [] as never // HACK: ugly fix...
       }
     }
 
@@ -87,10 +83,10 @@ export default class GlueMask extends PIXI.Sprite {
       vyi += modY;
 
       // window bounds
-      if (displayWidth - (xi + r) < 0 && vxi > 0 || xi - r < 0 && vxi < 0) {
+      if (this.width - (xi + r) < 0 && vxi > 0 || xi - r < 0 && vxi < 0) {
         vxi = -vxi * 0.7;
       }
-      if (displayHeight - (yi + r) < 0 && vyi > 0 || yi - r < 0 && vyi < 0) {
+      if (this.height - (yi + r) < 0 && vyi > 0 || yi - r < 0 && vyi < 0) {
         vyi = -vyi * 0.7;
       }
 
@@ -100,10 +96,10 @@ export default class GlueMask extends PIXI.Sprite {
       circlevData[i + 1] = vyi;
 
       // detect grid cell range for each circle
-      let leftCol = Math.floor((xi - r) / displayWidth * gridWidth);
-      let rightCol = Math.floor((xi + r) / displayWidth * gridWidth);
-      let topRow = Math.floor((yi - r) / displayHeight * gridHeight);
-      let bottomRow = Math.floor((yi + r) / displayHeight * gridHeight);
+      let leftCol = Math.floor((xi - r) / this.width * gridWidth);
+      let rightCol = Math.floor((xi + r) / this.width * gridWidth);
+      let topRow = Math.floor((yi - r) / this.height * gridHeight);
+      let bottomRow = Math.floor((yi + r) / this.height * gridHeight);
 
       if (leftCol < 0)
         leftCol = 0;
@@ -186,13 +182,12 @@ export default class GlueMask extends PIXI.Sprite {
     }
   }
 
-  update(dimensions, gravityAngle) {
-    this.timeStep(dimensions.width, dimensions.height, gravityAngle);
+  public update(gravityAngle: number) {
+    this.timeStep(gravityAngle);
     for(let i = 0; i < circleData.length; i+= 2) {
       const index = i / 2;
       this.circles[index].x = circleData[i];
       this.circles[index].y = circleData[i + 1];
     }
-    this.renderer.render(this.container, this.texture);
   }
 }
