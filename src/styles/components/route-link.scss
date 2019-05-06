@@ -35,6 +35,10 @@
     width: 27px;
   }
 
+  &.works-link img {
+    width: 40px;
+  }
+
   @include tablet {
     top: 0;
     width: 90px;

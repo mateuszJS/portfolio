@@ -11,6 +11,7 @@ import fixVhUnits from './fixVhUnits';
 
 var mainElement = document.querySelector('main');
 var canvas = document.querySelector('.animation-block');
+var btnWrapper = document.querySelector('.btn-float-container');
 var listeners = [];
 var isTouchDevice = false;
 
@@ -51,11 +52,13 @@ var handlerMainPage = function(oldRoute, transClass) {
     // NOTE: toggleRFA is property of window because it shouldn't be imported into this file,
     // it should be loaded as totally apart part 
     canvas.classList.toggle('active');
+    btnWrapper.classList.toggle('active');
 }
 
 var willUnmountMainPage = function() {
     window.toggleRFA();
     canvas.classList.toggle('active');
+    btnWrapper.classList.toggle('active');
 }
 
 var handlerWorksPreview = function(oldRoute, transClass, id) {

@@ -30,13 +30,11 @@ export default class GluePsyhic {
     this.width = width
     this.height = height
     this.circles = []
-    
     const numberCirclesInRow = this.width / (r + spaceBetween);
     for (let i = 0; i < circleData.length; i += 2) {
 
       const x = (i % numberCirclesInRow) * (r + spaceBetween);
-      const y = this.height - Math.floor(i / numberCirclesInRow) * (r + spaceBetween);
-
+      const y = Math.floor(i / numberCirclesInRow) * (r + spaceBetween) + r + spaceBetween;
       
       circleData[i] = x;
       circleData[i + 1] = y;

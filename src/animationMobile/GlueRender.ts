@@ -8,8 +8,6 @@ import { TextureInfo } from "./utils/loadImage";
 const gl = getWebGLInstance()
 
 export default class glueRender {
-  private width: number
-  private height: number
   private frameBuffer: WebGLFramebuffer
   private targetTextureWidth: number
   private targetTextureHeight: number
@@ -20,8 +18,6 @@ export default class glueRender {
   constructor(textures: TextureInfo[], width: number, height: number) {
     this.spaceTexture = textures[0]
     this.particleTexture = textures[1]
-    this.width = width
-    this.height = height
 
     this.targetTextureWidth = 256
     this.targetTextureHeight = 256
@@ -115,7 +111,7 @@ export default class glueRender {
         100,
         100,
         rotation === 90 || rotation === -90
-        )
+      )
     })
   }
 
@@ -148,26 +144,18 @@ export default class glueRender {
     // this.angle += 0.002
     // matrix = m4.translate(matrix, -this.width * 0.5, -this.height * 0.5, 0);
     if (rotation === 90) {
-      console.log(90)
-      rotation = -90
       matrix = m4.translate(matrix, 0, gl.canvas.height, 0);
-      matrix = m4.zRotate(matrix, rotation * Math.PI / 180)
+      matrix = m4.zRotate(matrix, -90 * Math.PI / 180)
       matrix = m4.scale(matrix, gl.canvas.height , gl.canvas.width, 1);
       // matrix = m4.scale(matrix, this.width, this.height, 1);
     } else if (rotation === -90) {
-      rotation = 90
       matrix = m4.translate(matrix, gl.canvas.width, 0, 0);
-      matrix = m4.zRotate(matrix, rotation * Math.PI / 180)
+      matrix = m4.zRotate(matrix, 90 * Math.PI / 180)
       matrix = m4.scale(matrix, gl.canvas.height , gl.canvas.width, 1);
     } else { 
       matrix = m4.scale(matrix, gl.canvas.width, gl.canvas.height, 1);
     }
-    
 
-    // matrix = m4.translate(matrix, this.width * 0.5, this.height * 0.5, 0);
-    console.log(this.width, this.height);
-    // matrix = m4.translate(matrix, this.width * 0.5, this.height * 0.5, 0);
-    // matrix = m4.translate(matrix, 0, 0, 0);
     spaceProgram.u_matrix = matrix
 
     // TODO: remember, bindTexture doesn't work as activeTexture(TEXTUE0) and bindTexture

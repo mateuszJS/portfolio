@@ -20,7 +20,7 @@ const setup = (textures: TextureInfo[]) => {
   const gluePsyhic = new GluePsyhic()
   const glueRender = new GlueRender(textures)
 
-  window.toggleRAF = () => {
+  window.toggleRFA = () => {
     if (requestAnimationFrameId) {
       window.cancelAnimationFrame(requestAnimationFrameId)
       requestAnimationFrameId = null
@@ -44,7 +44,7 @@ const setup = (textures: TextureInfo[]) => {
   imagesWereLoaded = true
 
   if (gl.canvas.classList.contains('active')) {
-    window.toggleRAF()
+    window.toggleRFA()
   }
 }
 

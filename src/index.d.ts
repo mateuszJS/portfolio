@@ -24,7 +24,7 @@ declare module "*.jpg" {
 }
 
 interface Window {
-  toggleRAF: VoidFunction
+  toggleRFA: VoidFunction
   floatButtonClickHandler: VoidFunction
 }
 

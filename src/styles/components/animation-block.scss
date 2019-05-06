@@ -1,12 +1,11 @@
 .animation-block {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: 100vw;
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  display: block;
   transform: scale3d(0.8, 0.8, 1);
   transform-origin: 50% 100%;
   opacity: 0;

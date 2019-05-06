@@ -22,15 +22,15 @@ let temp_angle = initialGamma * Math.PI / 180 + Math.PI
 let allowCalcPhycis = true
 
 const workBtn = document.createElement('BUTTON') as HTMLButtonElement
-workBtn.classList.add('btn')
-workBtn.classList.add('btn--float')
+workBtn.classList.add('btn-float')
 workBtn.innerText = 'Works'
 
-document.body.appendChild(workBtn)
+const btnWrapper = document.querySelector('.btn-float-container') as HTMLDivElement
+
+btnWrapper.appendChild(workBtn)
 
 workBtn.addEventListener('click', window.floatButtonClickHandler)
 
-let requestAnimationFrameId: number | null = null
 let imagesWereLoaded = false
 
 const images: string[] = [
@@ -52,18 +52,11 @@ const setup = (textures: TextureInfo[]) => {
 
   const handleResizeAndOrientation = () => {
     if (deviceOrientation === Number(window.orientation)) return
+
+    const diff = deviceOrientation - Number(window.orientation)
+    floatButton.currRotation += diff * Math.PI / 180
+
     deviceOrientation = Number(window.orientation)
-
-
-    const btnContainerAngle = deviceOrientation  * Math.PI / 180 + Math.PI;
-    const x = Math.sin(btnContainerAngle) * (0.7 * dimensions.width / 2);
-    const y = -Math.cos(btnContainerAngle) * (0.7 * dimensions.height / 2);
-    floatButton.distance = Math.sqrt(x * x + y * y);
-
-    if (deviceOrientation == 0) {
-    } else if (deviceOrientation == 90) {
-    } else if (deviceOrientation == -90) {
-    }
   }
 
   window.addEventListener('resize', () => {
@@ -90,14 +83,19 @@ const setup = (textures: TextureInfo[]) => {
     } else {
       temp_angle = -gamma;
     }
-    temp_angle = temp_angle  * Math.PI / 180 + Math.PI;
-    const x = Math.sin(temp_angle) * (0.7 * dimensions.width / 2);
-    const y = -Math.cos(temp_angle) * (0.7 * dimensions.height / 2);
-    floatButton.distance = Math.sqrt(x * x + y * y);
+
+    temp_angle = temp_angle * Math.PI / 180 + Math.PI
+    const horizontalLandscape = window.orientation === 90 || window.orientation === -90
+    const radiusFactorX = horizontalLandscape ? 0.1 : 0.4
+    const radiusFactorY = horizontalLandscape ? 0.3 : 0.2
+    const x = Math.sin(temp_angle) * window.innerWidth * radiusFactorX
+    const y = -Math.cos(temp_angle) * window.innerHeight * radiusFactorY
+    floatButton.distance = Math.hypot(x, y)
   }
   window.addEventListener('deviceorientation', handleOrientation);
 
-  window.toggleRAF = () => {
+  let requestAnimationFrameId: number | null = null
+  window.toggleRFA = () => {
     if (requestAnimationFrameId) {
       window.cancelAnimationFrame(requestAnimationFrameId)
       requestAnimationFrameId = null
@@ -125,19 +123,19 @@ const setup = (textures: TextureInfo[]) => {
     gluePsyhic.update(Math.PI - temp_angle)
     glueRender.draw(gluePsyhic.circles, deviceOrientation)
 
-    const angleDiff = animateAngle(floatButton.currRotation, temp_angle + Math.PI);
+    const angleDiff = animateAngle(floatButton.currRotation, temp_angle + Math.PI - (deviceOrientation * Math.PI / 180));
     const distanceDiff = -floatButton.currDistance + floatButton.distance;
     if (Math.abs(distanceDiff) < 1 && Math.abs(angleDiff) < 0.002) {
       floatButton.currDistance = floatButton.distance;
-      floatButton.currRotation = temp_angle + Math.PI;
-      const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
-      const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+      floatButton.currRotation = temp_angle + Math.PI - (deviceOrientation * Math.PI / 180);
+      const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance;
+      const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance;
       floatButton.node.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${floatButton.currRotation * 180 / Math.PI}deg)`;
     } else {
       floatButton.currDistance += distanceDiff * 0.05;
       floatButton.currRotation -= angleDiff * 0.02;
-      const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.width / 2;
-      const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance + dimensions.height / 2;
+      const x = Math.sin(floatButton.currRotation - Math.PI) * floatButton.currDistance;
+      const y = -Math.cos(floatButton.currRotation - Math.PI) * floatButton.currDistance;
       floatButton.node.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${floatButton.currRotation * 180 / Math.PI}deg)`;
     }
   }
@@ -145,7 +143,7 @@ const setup = (textures: TextureInfo[]) => {
   imagesWereLoaded = true
 
   if (gl.canvas.classList.contains('active')) {
-    window.toggleRAF()
+    window.toggleRFA()
   }
 }
 

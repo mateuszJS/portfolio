@@ -1,7 +1,7 @@
 // $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
 
-.btn {
-  display: flex;
+%base-button {
+  display: none;
   align-content: center;
   justify-content: center;
   width: 200px;
@@ -19,13 +19,10 @@
   &:focus {
     outline: none;
   }
+}
 
-  &--float {
-    position: fixed;
-    top: -27px;
-    left: -100px;
-    margin: 0;
-  }
+.btn {
+  @extend %base-button;
 
   &__icon {
     position: relative;
@@ -48,4 +45,30 @@
       transition: transform 0.5s ease;
     }
   }
+}
+
+.btn-float {
+  @extend %base-button;
+  position: fixed;
+  top: calc(50vh - 27px);
+  left: calc(50vw - 100px);
+  margin: 0;
+  transform: translate3d(0, 0.24vh, 0);
+}
+
+.btn-float-container {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.mobile .btn-float {
+  display: flex;
+}
+
+.desktop .btn {
+  display: flex;
 }
