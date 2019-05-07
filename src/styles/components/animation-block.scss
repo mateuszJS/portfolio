@@ -20,4 +20,5 @@
 .mobile .animation-block {
   width: auto;
   height: auto;
+  bottom: unset; // HACK: when user hide url, then canvas should stick to bottom edge
 }

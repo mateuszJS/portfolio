@@ -24,21 +24,3 @@
 @import 'components/main-page';
 @import 'components/works-page';
 @import 'components/contact-page';
-
-.svg-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  transform-origin: 50% 100%;
-  transition: opacity ease 0.5s,
-              transform ease 0.5s;
-  &:not(.active) {
-      opacity: 0;
-      transform: scale3d(1.2, 1.2, 1);
-  }
-}
-
-.desktop {
-  height: 100vh;
-  background : radial-gradient(farthest-corner at 50.75% 85.32%, #162259 0%, #081139 50%, #000214 100%)
-}

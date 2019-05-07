@@ -4,6 +4,7 @@
   background: none;
   border: none;
   outline: none;
+  color: $color-second;
   z-index: 2;
 
   &::before {
@@ -72,23 +73,18 @@
       display: block;
       width: 300px;
       margin-left: 45px - 150px;
-      color: $color-basic; // $color-light-basic;
       transform: rotate(-90deg);
       transition: letter-spacing ease 0.5s;
       pointer-events: none;
     }
     &--left {
       left: 0;
-      border-right: 1px solid rgba($color-basic, 0.3); // $color-light-basic
+      border-right: 1px solid rgba($color-second, 0.3); // $color-light-basic
     }
     &--right {
       width: 90px - 15px;
       right: 15px; // Space for scrollbar
-      border-left: 1px solid rgba($color-basic, 0.3); // $color-light-basic
+      border-left: 1px solid rgba($color-second, 0.3); // $color-light-basic
     }
   }
-}
-
-.mobile .route-link {
-  color: $color-second;
 }

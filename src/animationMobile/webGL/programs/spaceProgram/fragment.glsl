@@ -12,6 +12,15 @@ void main() {
   strength = min(1.0, strength);
   vec2 pixelCoord = v_texcoord - (1.0 - strength) * 0.1;
   // gl_FragColor = texture2D(u_spaceTexture, v_texcoord);
+  if (strength < 0.4) {
+    gl_FragColor = vec4(0, 0, 0.2, 1.7 * strength);
+    // gl_FragColor = vec4(0, 0, 0, 0);
+    // gl_FragColor = texture2D(u_spaceTexture, pixelCoord) * strength * 1.5;
+    return;
+  } else if (strength < 0.98) {
+    gl_FragColor = texture2D(u_spaceTexture, pixelCoord) * 2.0;
+    return;
+  }
   gl_FragColor = texture2D(u_spaceTexture, pixelCoord) * strength;
 }
 

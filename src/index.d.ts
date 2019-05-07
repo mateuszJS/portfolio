@@ -23,6 +23,11 @@ declare module "*.jpg" {
   export = content;
 }
 
+declare module "*.jpeg" {
+  const content: any;
+  export = content;
+}
+
 interface Window {
   toggleRFA: VoidFunction
   floatButtonClickHandler: VoidFunction

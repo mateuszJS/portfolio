@@ -1,31 +1,27 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    &::selection {
-        background-color: $color-accent;
-        color: #ff6633;
-    }
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  &::selection {
+    background-color: $color-accent;
+    color: #ff6633;
+  }
 }
 li {
-    display: block;
+  display: block;
 }
 img, button {
-    user-select: none;
+  user-select: none;
 }
 html {
-    font-size: 16px;
+  font-size: 16px;
 }
 body {
-    font-family: 'OfficeCodePro';
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    overflow: hidden;
-    color: $color-basic;
-}
-
-.mobile {
-    color: $color-second;
+  font-family: 'OfficeCodePro';
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  color: $color-second;
 }

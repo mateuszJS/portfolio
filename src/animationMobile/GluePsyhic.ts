@@ -1,4 +1,4 @@
-const circleCount = 120;
+const circleCount = 170;
 
 const gridWidth = 20;
 const gridHeight = 20;

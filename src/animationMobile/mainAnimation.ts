@@ -2,7 +2,7 @@ import './webGL/setup'
 import GluePsyhic from './GluePsyhic'
 // import GluePsyhic from './GluePsyhic'
 import GlueRender from './GlueRender'
-import spaceBackgroundImg from '../assets/space.jpg'
+import spaceBackgroundImg from '../assets/space.jpeg'
 import particleImg from '../assets/circleSM30newInline.png'
 import { loadImage, TextureInfo } from './utils/loadImage'
 import getWebGLInstance from './webGL/webGLInstance'
@@ -87,7 +87,7 @@ const setup = (textures: TextureInfo[]) => {
     temp_angle = temp_angle * Math.PI / 180 + Math.PI
     const horizontalLandscape = window.orientation === 90 || window.orientation === -90
     const radiusFactorX = horizontalLandscape ? 0.1 : 0.4
-    const radiusFactorY = horizontalLandscape ? 0.3 : 0.2
+    const radiusFactorY = horizontalLandscape ? 0.3 : 0.25
     const x = Math.sin(temp_angle) * window.innerWidth * radiusFactorX
     const y = -Math.cos(temp_angle) * window.innerHeight * radiusFactorY
     floatButton.distance = Math.hypot(x, y)

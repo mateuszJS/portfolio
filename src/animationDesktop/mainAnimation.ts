@@ -37,6 +37,7 @@ const setup = (textures: TextureInfo[]) => {
   }
 
   const play = () => {
+    console.log('play')
     gluePsyhic.update()
     glueRender.draw(gluePsyhic.glueGroups)
   }
