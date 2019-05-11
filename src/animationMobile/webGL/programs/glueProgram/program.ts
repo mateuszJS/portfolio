@@ -62,8 +62,8 @@ class GLProgram extends AbstractGLProgram {
     gl.uniformMatrix4fv(this.uniformsLocation.u_matrix, false, value);
   }
 
-  set u_alpha (value: number) {
-    gl.uniform1f(this.uniformsLocation.u_alpha, value);
+  set u_tint (value: vec3) {
+    gl.uniform3f(this.uniformsLocation.u_tint, ...value);
   }
 }
 

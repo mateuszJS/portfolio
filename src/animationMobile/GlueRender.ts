@@ -63,6 +63,7 @@ export default class glueRender {
     dstWidth: number,
     dstHeight: number,
     reversAspectRatio: boolean,
+    tint: vec3,
   ) {
     
     const width = reversAspectRatio ? gl.canvas.height : gl.canvas.width; 
@@ -74,6 +75,7 @@ export default class glueRender {
     glueProgram.u_matrix = matrix
     // Tell the shader to get the texture from texture unit 0
     glueProgram.u_texture = 0
+    glueProgram.u_tint = tint;
     gl.drawArrays(gl.TRIANGLES, 0, 6)
   }
 
@@ -110,7 +112,8 @@ export default class glueRender {
         particle.y,
         100,
         100,
-        rotation === 90 || rotation === -90
+        rotation === 90 || rotation === -90,
+        particle.tint,
       )
     })
   }

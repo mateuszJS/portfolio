@@ -19,7 +19,16 @@ const spaceBetween = 2
 // const SPEED = 1
 // const MAX_TIME = FRAMES * Math.PI
 
-export interface IParticle extends Point {}
+export interface IParticle extends Point {
+  tint: vec3;
+}
+
+const allTints: vec3[] = [
+  [0, 0, 0],
+  [1, 0, 0],
+  [0, 1, 0],
+  [1, 1, 0],
+];
 
 export default class GluePsyhic {
   private width: number
@@ -41,9 +50,11 @@ export default class GluePsyhic {
 
       circlevData[i] = (Math.random() - 0.5) * 0.5;
       circlevData[i + 1] = (Math.random() - 0.5) * 0.5;
+      const tintIndex = Math.random() > 0.65 ? 1 + Math.floor(Math.random() * 2) : 0
       const particle: IParticle = {
         x,
         y,
+        tint: allTints[tintIndex]
       }
       this.circles.push(particle);
     }
