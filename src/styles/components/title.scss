@@ -1,6 +1,6 @@
 .title {
   margin: 70px auto;
-  color: $color-basic;
+  color: $color-second;
   font-size: 55px;
   font-weight: 400;
   text-align: center;
@@ -9,8 +9,4 @@
     display: block;
     width: 150px;
   }
-}
-
-.mobile .title {
-  color: $color-second;
 }

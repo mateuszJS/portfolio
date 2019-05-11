@@ -1,60 +1,60 @@
 .tags-list {
-    display: flex;
-    margin: auto;
-    max-width: 575px;
-    flex-wrap: wrap;
-    justify-content: center;
-    &--hidden {
-        .tags-list__tag {
-            opacity: 0;
-            transform: translate3d(0, -30px, 0);
-        }
+  display: flex;
+  margin: auto;
+  max-width: 497px;
+  flex-wrap: wrap;
+  justify-content: center;
+  &--hidden {
+    .tags-list__tag {
+      opacity: 0;
+      transform: translate3d(0, -30px, 0);
     }
-    &__tag {
-        display: block;
-        padding: 5px 12px;
-        border-radius: 25px;
-        margin: 10px 5px;
-        background-color: currentColor;
-        font-size: 16px;
-        letter-spacing: -0.5px;
-        text-decoration: none;
-        overflow: hidden;
-        transition: transform 1s ease,
-                    opacity 1s ease;
+  }
+  &__tag {
+    display: block;
+    padding: 5px 12px;
+    border-radius: 25px;
+    margin: 10px 5px;
+    background-color: currentColor;
+    font-size: 16px;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform 1s ease,
+                opacity 1s ease;
 
-        .icon {
-            color: #ffffff;
-            margin-left: 6px;
-            transition: opacity 0.5s ease,
-                        transform 0.5s ease;
-            &.icon-tiny {
-                font-size: 0.85em;
-                position: relative;
-                top: -1px;
-                left: -1px;
-            }
-        }
+    .icon {
+      color: #ffffff;
+      margin-left: 6px;
+      transition: opacity 0.5s ease,
+                  transform 0.5s ease;
+      &.icon-tiny {
+        font-size: 0.85em;
+        position: relative;
+        top: -1px;
+        left: -1px;
+      }
+    }
 
-        span {
-            color: #ffffff;
-            display: inline-block;
-            transition: transform 0.5s ease;
-            transition-delay: 0.15s;
-        }
+    span {
+      color: #ffffff;
+      display: inline-block;
+      transition: transform 0.5s ease;
+      transition-delay: 0.15s;
     }
-    &__space {
-        display: none;
-        flex-basis: 100%;
-    }
+  }
 }
 
 .tags-list__tag:hover {
-    .icon {
-        transform: translate3d(30px, 0, 0);
-        opacity: 0;
-    }
-    span {
-        transform: translate3d(11px, 0, 0);
-    }
+  .icon {
+    transform: translate3d(30px, 0, 0);
+    opacity: 0;
+  }
+  span {
+    transform: translate3d(11px, 0, 0);
+  }
+}
+
+.tags-list__tag--push-right:hover span {
+  transform: translate3d(21px, 0, 0);
 }

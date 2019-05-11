@@ -1,6 +1,7 @@
-@media (max-height: 400px) {
+@media only screen and (orientation: landscape) {
   .main-page {
     .wrapper {
+      padding-top: 14vh;
       display: flex;
       flex-direction: row;
       align-items: center;

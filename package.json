@@ -1,7 +1,7 @@
 {
-  "name": "Mateusz_Portoflio",
+  "name": "Mateusz_Portfolio",
   "version": "1.0.0",
-  "description": "My portoflio.",
+  "description": "My portfolio.",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --hot --inline  --config webpack.dev.js",

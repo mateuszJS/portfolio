@@ -228,24 +228,25 @@ var showTagsList = function() {
 
 var handlerContact = function(oldRoute, transClass) {
     var tags = [
+        {color: '#0077c3', icon: '&#xe800;', text: 'TypeScript', link: 'https://webpack.js.org/'},
         {color: '#5190da', icon: '&#xe80c;', text: 'Webpack', link: 'https://webpack.js.org/'},
         {color: '#e91e63', icon: '&#xe808;', text: 'Pixi.js', link: 'http://www.pixijs.com/'},
-        {color: '#2886af', icon: '&#xe801;', text: 'Babylon', link: 'https://www.babylonjs.com/'},
-        null,
+        {color: '#137dbf', icon: '&#xe810;', text: 'WebGL', link: 'https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API', className: 'tags-list__tag--push-right'},
+        {color: '#614de5', icon: '&#xe80f;', text: 'WebAssembly', link: 'https://webassembly.org/'},
         {color: '#45c3e4', icon: '&#xe809;', text: 'React', link: 'https://reactjs.org/'},
         {color: '#8558ce', icon: '&#xe80a;', text: 'Redux', link: 'https://redux.js.org/'},
-        {color: '#e5712f', icon: '&#xe806;', text: 'Mobx', link: 'https://github.com/mobxjs/mobx'},
-        {color: '#24a775', icon: '&#xe80b;', text: 'Vue', link: 'https://vuejs.org/'},
-        null,
         {color: '#e47617', icon: '&#xe804;', text: 'Illustrator', link: 'https://www.adobe.com/Illustrator‎', class: 'icon-tiny'},
         {color: '#5d4ec4', icon: '&#xe802;', text: 'Cinema 4D', link: 'https://www.maxon.net/en-gb/products/cinema-4d/overview/'},
         {color: '#00a1d6', icon: '&#xe807;', text: 'Photoshop', link: 'https://www.adobe.com/Photoshop', class: 'icon-tiny'},
-        {color: '#2d97fb', icon: '&#xe800;', text: 'Affinity Designer', link: 'https://affinity.serif.com/en-gb/'},
     ]
+
+    if (window.isMobile) {
+      tags = [tags[1], tags[5], tags[6], tags[0], tags[4], tags[9], tags[7], tags[2], tags[3], tags[8]]
+    }
     var getTags = function() {
         return tags.map( (tag, idx) => {
-            if(!tag) return '<li class="tags-list__space"></li>'
-            return '<li><a href="'+tag.link+'" class="tags-list__tag" target="_blank" rel="noopener noreferrer" style="transition-delay: '+(idx/10.0)+'s; color: '+tag.color+'"><span>'+tag.text+'</span><i class="icon'+(tag.class ? ' '+tag.class : '')+'">'+tag.icon+'</i></a></li>';
+            var className = tag.className ? tag.className + ' tags-list__tag' : 'tags-list__tag';
+            return '<li><a href="'+tag.link+'" class="'+className+'" target="_blank" rel="noopener noreferrer" style="transition-delay: '+(idx/10.0)+'s; color: '+tag.color+'"><span>'+tag.text+'</span><i class="icon'+(tag.class ? ' '+tag.class : '')+'">'+tag.icon+'</i></a></li>';
         }).join('');
     }
 
@@ -368,25 +369,31 @@ var findWorksNodes = function() {
     if(window.workID) showModal(window.workID);
 }
 
+
 var onScroll = function(e) {
-    var scrollVal = e.target.scrollTop;
-    var viewPortWidth = window.innerWidth / 100;
-    var isMobileResolution = window.innerWidth < 768;
-    var windowPartHeight = {
-        start: window.innerHeight * 0.1,
-        end: window.innerHeight * (isMobileResolution ? 1.1 : 0.65),
+  var scrollVal = e.target.scrollTop;
+  var viewPortWidth = window.innerWidth / 100;
+  var isMobileResolution = window.innerWidth < 768;
+  var windowPartHeight = {
+    start: window.innerHeight * 0.1,
+    end: window.innerHeight * 0.75,
+  }
+  if (isMobileResolution) {
+    windowPartHeight = {
+      start: -window.innerHeight * 0.1,
+      end: window.innerHeight * 0.85,
     }
-    for(var i = 0; i < previewPos.length; i++) {
-        var previewElement = document.querySelector('.preview-' + (i + 1));
-        previewElement.classList.remove('preview--active');
-        var offsetY = (isMobileResolution ?
-            i * (window.innerWidth * 0.494 + 80) + 315 :
-            previewPos[i].y * viewPortWidth)
-            - scrollVal + 85;
-        if (windowPartHeight.start < offsetY && offsetY < windowPartHeight.end) {
-            previewElement.classList.add('preview--active');
-        }
-    }
+  }
+  for (var i = 0; i < previewPos.length; i++) {
+      var previewElement = document.querySelector('.preview-' + (i + 1));
+      previewElement.classList.remove('preview--active');
+      var coordY = isMobileResolution
+        ? 239 + (Math.min((window.innerWidth - 50), 400) * 0.57 + 80) * (i)
+        : 239 + previewPos[i].y * viewPortWidth;
+      if (windowPartHeight.start + scrollVal < coordY && coordY < windowPartHeight.end + scrollVal) {
+          previewElement.classList.add('preview--active');
+      }
+  }
 }
 
 var scrollHandler = throttle(onScroll, 300);
