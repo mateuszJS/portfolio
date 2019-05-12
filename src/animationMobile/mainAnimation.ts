@@ -1,13 +1,11 @@
 import './webGL/setup'
 import GluePsyhic from './GluePsyhic'
-// import GluePsyhic from './GluePsyhic'
 import GlueRender from './GlueRender'
-import spaceBackgroundImg from '../assets/space.jpeg'
-// import particleImg from '../assets/samples_map/3.png'
+import getBestSpaceImg from '../getBestSpaceImg'
 import particleImg from '../assets/circleSM30newInlineRed.png'
 import { loadImage, TextureInfo } from './utils/loadImage'
 import getWebGLInstance from './webGL/webGLInstance'
-
+import showInfoSvg from '../showSvgInfo';
 
 const gl = getWebGLInstance()
 
@@ -17,13 +15,18 @@ const dimensions = {
   height: Math.max(screen.width, screen.height),
 }
 
-let deviceOrientation = Number(window.orientation)
+const getDeviceOrientstion = () => {
+  return Number(window.orientation || 0)
+}
+
+let deviceOrientation = getDeviceOrientstion()
 const initialGamma = deviceOrientation
 let temp_angle = initialGamma * Math.PI / 180 + Math.PI
 let allowCalcPhycis = true
 
 const workBtn = document.createElement('BUTTON') as HTMLButtonElement
 workBtn.classList.add('btn-float')
+workBtn.classList.add('btn-float--hidden')
 workBtn.innerText = 'Works'
 
 const btnWrapper = document.querySelector('.btn-float-container') as HTMLDivElement
@@ -33,7 +36,7 @@ btnWrapper.appendChild(workBtn)
 workBtn.addEventListener('click', window.floatButtonClickHandler)
 
 let imagesWereLoaded = false
-
+const spaceBackgroundImg = getBestSpaceImg()
 const images: string[] = [
   spaceBackgroundImg,
   particleImg,
@@ -52,12 +55,12 @@ const setup = (textures: TextureInfo[]) => {
   const glueRender = new GlueRender(textures, dimensions.width, dimensions.height)
 
   const handleResizeAndOrientation = () => {
-    if (deviceOrientation === Number(window.orientation)) return
+    if (deviceOrientation === getDeviceOrientstion()) return
 
-    const diff = deviceOrientation - Number(window.orientation)
+    const diff = deviceOrientation - getDeviceOrientstion()
     floatButton.currRotation += diff * Math.PI / 180
 
-    deviceOrientation = Number(window.orientation)
+    deviceOrientation = getDeviceOrientstion()
   }
 
   window.addEventListener('resize', () => {
@@ -73,20 +76,18 @@ const setup = (textures: TextureInfo[]) => {
   handleResizeAndOrientation();
 
   function handleOrientation(event: DeviceOrientationEvent) {
-    // const absolute = Math.round(event.absolute);
-    // const alpha    = Math.round(event.alpha);
-    const beta     = Math.round(Number(event.beta))
-    const gamma    = Math.round(Number(event.gamma))
-    if (window.orientation == 90) {
-      temp_angle = 90 - beta; // -(beta * 1.5 + gamma);
-    } else if (window.orientation == -90) {
-      temp_angle = -(90 - beta); // -(gamma - beta * 1.5);
+    const beta = Math.round(Number(event.beta))
+    const gamma = Math.round(Number(event.gamma))
+    if (getDeviceOrientstion() == 90) {
+      temp_angle = 90 - beta;
+    } else if (getDeviceOrientstion() == -90) {
+      temp_angle = -(90 - beta);
     } else {
       temp_angle = -gamma;
     }
 
     temp_angle = temp_angle * Math.PI / 180 + Math.PI
-    const horizontalLandscape = window.orientation === 90 || window.orientation === -90
+    const horizontalLandscape = getDeviceOrientstion() === 90 || getDeviceOrientstion() === -90
     const radiusFactorX = horizontalLandscape ? 0.1 : 0.4
     const radiusFactorY = horizontalLandscape ? 0.3 : 0.25
     const x = Math.sin(temp_angle) * window.innerWidth * radiusFactorX
@@ -145,6 +146,9 @@ const setup = (textures: TextureInfo[]) => {
 
   if (gl.canvas.classList.contains('active')) {
     window.toggleRFA()
+    showInfoSvg(() => workBtn.classList.remove('btn-float--hidden'))
+  } else {
+    workBtn.classList.remove('btn-float--hidden')
   }
 }
 

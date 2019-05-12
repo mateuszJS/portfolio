@@ -7,8 +7,6 @@ const circleData = new Float32Array(circleCount * 2);
 const circlevData = new Float32Array(circleCount * 2);
 const grid: number[][][] = [];
 
-const r = 14;
-const spaceBetween = 2
 // const CANVAS_PADDING = 200;
 // const groupSize = 100;
 // const randomPos = () => Math.random() * groupSize - groupSize / 2;
@@ -33,17 +31,23 @@ const allTints: vec3[] = [
 export default class GluePsyhic {
   private width: number
   private height: number
+  private radius: number;
+  private radius2x: number;
   public circles: IParticle[]
 
   constructor(width: number, height: number) {
     this.width = width
     this.height = height
     this.circles = []
-    const numberCirclesInRow = this.width / (r + spaceBetween);
+    this.radius = Math.round(this.width / 25.7)
+    this.radius2x = 2 * this.radius
+
+    const spaceBetween = Math.round(this.radius / 7)
+    const numberCirclesInRow = this.width / (this.radius + spaceBetween);
     for (let i = 0; i < circleData.length; i += 2) {
 
-      const x = (i % numberCirclesInRow) * (r + spaceBetween);
-      const y = Math.floor(i / numberCirclesInRow) * (r + spaceBetween) + r + spaceBetween;
+      const x = (i % numberCirclesInRow) * (this.radius + spaceBetween);
+      const y = Math.floor(i / numberCirclesInRow) * (this.radius + spaceBetween) + this.radius + spaceBetween;
       
       circleData[i] = x;
       circleData[i + 1] = y;
@@ -62,11 +66,11 @@ export default class GluePsyhic {
 
   private detectCircleCollision (x1: number, y1: number, x2: number, y2: number) {
     // before circle intersection, check bounding box intersection
-    if (x1 + r < x2 - r || x1 - r > x2 + r ||
-        y1 + r < y2 - r || y1 - r > y2 + r)
+    if (x1 + this.radius < x2 - this.radius || x1 - this.radius > x2 + this.radius ||
+        y1 + this.radius < y2 - this.radius || y1 - this.radius > y2 + this.radius)
       return false;
     // circle intersection when distance between centers < radius total
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) <= r + r;
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) <= this.radius + this.radius;
   }
 
   timeStep (gravityAngle: number) {
@@ -92,10 +96,10 @@ export default class GluePsyhic {
       vyi += modY;
 
       // window bounds
-      if (this.width - (xi + r) < 0 && vxi > 0 || xi - r < 0 && vxi < 0) {
+      if (this.width - (xi + this.radius) < 0 && vxi > 0 || xi - this.radius < 0 && vxi < 0) {
         vxi = -vxi * 0.7;
       }
-      if (this.height - (yi + r) < 0 && vyi > 0 || yi - r < 0 && vyi < 0) {
+      if (this.height - (yi + this.radius) < 0 && vyi > 0 || yi - this.radius < 0 && vyi < 0) {
         vyi = -vyi * 0.7;
       }
 
@@ -105,10 +109,10 @@ export default class GluePsyhic {
       circlevData[i + 1] = vyi;
 
       // detect grid cell range for each circle
-      let leftCol = Math.floor((xi - r) / this.width * gridWidth);
-      let rightCol = Math.floor((xi + r) / this.width * gridWidth);
-      let topRow = Math.floor((yi - r) / this.height * gridHeight);
-      let bottomRow = Math.floor((yi + r) / this.height * gridHeight);
+      let leftCol = Math.floor((xi - this.radius) / this.width * gridWidth);
+      let rightCol = Math.floor((xi + this.radius) / this.width * gridWidth);
+      let topRow = Math.floor((yi - this.radius) / this.height * gridHeight);
+      let bottomRow = Math.floor((yi + this.radius) / this.height * gridHeight);
 
       if (leftCol < 0)
         leftCol = 0;
@@ -174,8 +178,8 @@ export default class GluePsyhic {
                 continue;
 
               // (https://en.wikipedia.org/wiki/Elastic_collision)
-              const cvi = (2 * r * cuj) / 28; // 2 * r
-              const cvj = (2 * r * cui) / 28;
+              const cvi = (2 * this.radius * cuj) / this.radius2x; // 2 * r
+              const cvj = (2 * this.radius * cui) / this.radius2x;
 
               const dcvi = cvi - cui;
               const dcvj = cvj - cuj;

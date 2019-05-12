@@ -1,16 +1,17 @@
 import './webGL/setup'
 import GluePsyhic from './GluePsyhic'
 import GlueRender from './GlueRender'
-import spaceBackgroundImg from '../assets/space.jpg'
+import getBestSpaceImg from '../getBestSpaceImg'
 import particleImg from '../assets/particle.png'
 import { loadImage, TextureInfo } from './utils/loadImage'
 import getWebGLInstance from './webGL/webGLInstance';
+import showInfoSvg from '../showSvgInfo';
 
 const gl = getWebGLInstance()
 
 let requestAnimationFrameId: number | null = null;
 let imagesWereLoaded = false
-
+const spaceBackgroundImg = getBestSpaceImg()
 const images: string[] = [
   spaceBackgroundImg,
   particleImg,
@@ -37,7 +38,6 @@ const setup = (textures: TextureInfo[]) => {
   }
 
   const play = () => {
-    console.log('play')
     gluePsyhic.update()
     glueRender.draw(gluePsyhic.glueGroups)
   }
@@ -46,7 +46,9 @@ const setup = (textures: TextureInfo[]) => {
 
   if (gl.canvas.classList.contains('active')) {
     window.toggleRFA()
+    showInfoSvg()
   }
+
 }
 
 const promises = images.map(loadImage)

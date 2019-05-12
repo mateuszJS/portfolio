@@ -431,11 +431,6 @@ Router.routes = [
                 type: 'click',
                 handler: redirect.bind('/works')
             },
-            // {
-            //     element: '.link',
-            //     type: 'click',
-            //     handler: redirect.bind('/about')
-            // }
         ],
         willUnmountHandler: willUnmountMainPage
         // unmountedHandler: unmountMainPage

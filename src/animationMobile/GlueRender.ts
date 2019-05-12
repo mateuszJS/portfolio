@@ -14,10 +14,13 @@ export default class glueRender {
   private targetTexture: WebGLTexture
   private spaceTexture: TextureInfo
   private particleTexture: TextureInfo
+  private particleSize: number;
 
   constructor(textures: TextureInfo[], width: number, height: number) {
     this.spaceTexture = textures[0]
     this.particleTexture = textures[1]
+
+    this.particleSize = Math.round(width / 3.6)
 
     this.targetTextureWidth = 256
     this.targetTextureHeight = 256
@@ -110,8 +113,8 @@ export default class glueRender {
         this.particleTexture.height,
         particle.x,
         particle.y,
-        100,
-        100,
+        this.particleSize,
+        this.particleSize,
         rotation === 90 || rotation === -90,
         particle.tint,
       )

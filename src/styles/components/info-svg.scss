@@ -1,0 +1,27 @@
+.info-svg {
+  position: fixed;
+  bottom: 10vh;
+  width: 30vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(8vh);
+  pointer-events: none;
+  transition: opacity 0.8s ease,
+              transform 0.8s ease;
+
+  &--desktop {
+
+  }
+
+  &--animation {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+
+  &--animation-end {
+    opacity: 0;
+    transform: translateY(-8vh);
+  }
+}

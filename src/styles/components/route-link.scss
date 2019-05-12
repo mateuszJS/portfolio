@@ -36,8 +36,13 @@
     width: 27px;
   }
 
-  &.works-link img {
-    width: 40px;
+  &.works-link {
+    img {
+      width: 40px;
+    }
+    &::before {
+      width: 52px;
+    }
   }
 
   @include tablet {

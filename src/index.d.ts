@@ -28,7 +28,14 @@ declare module "*.jpeg" {
   export = content;
 }
 
+declare module "*.svg" {
+  const content: any;
+  export = content;
+}
+
 interface Window {
+  isDesktop: boolean;
+  isMobile: boolean;
   toggleRFA: VoidFunction
   floatButtonClickHandler: VoidFunction
 }
