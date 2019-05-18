@@ -7,7 +7,8 @@ const showInfoSvg = (src: string, callback?: VoidFunction) => {
   if (window.isMobile) {
     node.classList.add('info-svg')
   } else {
-    node.classList.add('info-svg info-svg--desktop')
+    node.classList.add('info-svg')
+    node.classList.add('info-svg--desktop')
   }
   document.body.appendChild(node)
   window.getComputedStyle(node).opacity

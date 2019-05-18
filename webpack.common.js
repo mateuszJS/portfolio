@@ -8,8 +8,8 @@ module.exports = {
   },
 	entry: {
 		index: `${__dirname}/src/index.js`,
-		animationMobile: `${__dirname}/src/animationMobile/mainAnimation.ts`,
-		// animationDesktop: `${__dirname}/src/animationDesktop/mainAnimation.ts`,
+		// animationMobile: `${__dirname}/src/animationMobile/mainAnimation.ts`,
+		animationDesktop: `${__dirname}/src/animationDesktop/mainAnimation.ts`,
 		prefetchImages: `${__dirname}/src/prefetch-images.js`,
 		sayHello: `${__dirname}/src/sayHello.js`,
 	},

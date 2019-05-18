@@ -30,13 +30,17 @@ module.exports = merge(common, {
 			sync: ['animation.bundle.js', 'prefetch-images.bundle.js'],
 		}),
 		new UglifyJSPlugin({
-			compress: true,
+      compress: true,
+        uglifyOptions: {
+          output: {
+            comments: false,
+          },
+        },
 		}),
 		new ExtractTextPlugin({
 			filename: '[name].bundle.css',
 			allChunks: true,
 		}),
-		new webpack.optimize.ModuleConcatenationPlugin(),
 		new BundleAnalyzerPlugin()
 	]
 })

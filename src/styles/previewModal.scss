@@ -1,154 +1,166 @@
 $transition: transform 0.5s ease, opacity 0.5s ease;
 
 @keyframes rotating {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
   }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .preview-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(#000, 0.75);
+  opacity: 1;
+  z-index: 2;
+  &.loader::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    border: 7px solid $color-accent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: rotating 1s linear infinite;
+  }
+  @at-root {
+    div#{&} {
+      transition: opacity 0.5s ease;
+    }
+  }
+  img#{&}__picture {
+    width: auto;
+    height: auto;
+    max-width: 95%;
+    max-height: 95%;
+    position: absolute;
+    transition: $transition;
+
+    &.left {
+      opacity: 0;
+      transform: translateX(-150px);
+    }
+    &.right {
+      opacity: 0;
+      transform: translateX(150px);
+    }
+  }
+  &__btn {
+    position: absolute;
+    padding-bottom: 13px;
+    background-color: rgba(#000, 0.7);
+    opacity: 0.5;
+    margin-top: -15vw;
+    width: 30vw;
+    height: 30vw;
+    border-radius: 20vw;
+    border: none;
+    transition: $transition;
+    cursor: pointer;
+
+    &:before, &:after {
+      display: block;
+      content: '';
+      width: 40px;
+      height: 7px;
+      border-radius: 2px;
+      background-color: rgba(#fff, 0.9);
+      transform-origin: 100% 50%;
+      transition: transform 0.5s ease;
+    }
+    &:before {
+      position: relative;
+      top: 12px;
+      transform: translateX(3vw) rotate(45deg);
+    }
+    &:after {
+      transform: translateX(3vw) rotate(-45deg);
+    }
+    &:hover {
+      opacity: 1;
+      &:before {
+        transform: translateX(5vw) rotate(45deg);
+      }
+      &:after {
+        transform: translateX(5vw) rotate(-45deg);                    
+      }
+    }
+    &:focus {
+      outline: none;
+    }
+    &--left {
+      left: -13vw;
+      transform: rotate(180deg);
+    }
+    &--right {
+      right: -13vw;
+    }
+  }
+  &__close-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(#000, 0.75);
-    opacity: 1;
-    z-index: 2;
-    &.loader::before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 40px;
-        border-radius: 30px;
-        border: 7px solid $color-accent;
-        border-left-color: transparent;
-        border-right-color: transparent;
-        animation: rotating 1s linear infinite;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: absolute;
+    top: 4vh;
+    right: 5vw;
+    cursor: pointer;
+    background-color: rgba(#000, 0.5);
+    opacity: 0.5;
+    transition: transform 0.5s ease,
+                opacity 0.5s ease;
+    &:before, &:after {
+      display: block;
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 5px;
+      border-radius: 0px;
+      background-color: #fff;
     }
-    @at-root {
-        div#{&} {
-            transition: opacity 0.5s ease;
-        }
+    &:before {
+      transform: rotate(45deg);
     }
-    img#{&}__picture {
-        width: 95%;
-        height: 95%;
-        position: absolute;
-        object-fit: contain;
-        transition: $transition;
-        &.left {
-            opacity: 0;
-            transform: translateX(-150px);
-        }
-        &.right {
-            opacity: 0;
-            transform: translateX(150px);
-        }
+    &:after {
+      transform: rotate(-45deg);
     }
-    &__btn {
-        position: absolute;
-        background-color: rgba(#000, 0.7);
-        opacity: 0.5;
-        margin-top: -15vw;
-        width: 30vw;
-        height: 30vw;
-        border-radius: 20vw;
-        border: none;
-        transition: $transition;
-        cursor: pointer;
-        &:before, &:after {
-            display: block;
-            content: '';
-            width: 40px;
-            height: 7px;
-            border-radius: 2px;
-            background-color: rgba(#fff, 0.9);
-            transform-origin: 100% 50%;
-            transition: transform 0.5s ease;
-        }
-        &:before {
-            position: relative;
-            top: 12px;
-            transform: translateX(3vw) rotate(45deg);
-        }
-        &:after {
-            transform: translateX(3vw) rotate(-45deg);
-        }
-        &:hover {
-            opacity: 1;
-            &:before {
-                transform: translateX(5vw) rotate(45deg);
-            }
-            &:after {
-                transform: translateX(5vw) rotate(-45deg);                    
-            }
-        }
-        &:focus {
-            outline: none;
-        }
-        &--left {
-            left: -20vw;
-            transform: rotate(180deg);
-        }
-        &--right {
-            right: -20vw;
-        }
+    &:hover {
+      transform: rotate(90deg);
+      opacity: 1;
     }
-    &__close-btn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        position: absolute;
-        top: 4vh;
-        right: 5vw;
-        cursor: pointer;
-        background-color: rgba(#000, 0.5);
-        opacity: 0.5;
-        transition: transform 0.5s ease,
-                    opacity 0.5s ease;
-        &:before, &:after {
-            display: block;
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 5px;
-            border-radius: 0px;
-            background-color: #fff;
-        }
-        &:before {
-            transform: rotate(45deg);
-        }
-        &:after {
-            transform: rotate(-45deg);
-        }
-        &:hover {
-            transform: rotate(90deg);
-            opacity: 1;
-        }
+  }
+  &__action-group {
+    .preview-modal__btn--left:hover {
+      opacity: 1;
+      transform: translateX(0px) rotate(180deg);
     }
-    &__action-group {
-        .preview-modal__btn--left:hover {
-            opacity: 1;
-            transform: translateX(0px) rotate(180deg);
-        }
-        .preview-modal__btn--right:hover {
-            opacity: 1;
-            transform: translateX(0px);
-        }
+    .preview-modal__btn--right:hover {
+      opacity: 1;
+      transform: translateX(0px);
     }
+  }
 }
 
 .modal-hidden {
-    opacity: 0;
-    pointer-events: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.desktop .preview-modal__btn--left {
+  left: -17vw;
+}
+
+.desktop .preview-modal__btn--right {
+  right: -17vw;
 }

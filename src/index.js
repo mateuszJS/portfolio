@@ -8,6 +8,7 @@ import MainPageTemplate from './templates/MainPageTemplate.html';
 import WorksPageTemplate from './templates/WorksPageTemplate.html';
 import listenTouchSwipe from './touchSwipe';
 import fixVhUnits from './fixVhUnits';
+import { allTiny } from './assets/images';
 
 var mainElement = document.querySelector('main');
 var canvas = document.querySelector('.animation-block');
@@ -61,9 +62,38 @@ var willUnmountMainPage = function() {
     btnWrapper.classList.toggle('active');
 }
 
+var listOfDigits = [
+  { viewBox: '0 0 72.3 187.5', color1: 'ff0000', color2: '0000ff', points: '8.8,77.7 58.8,27.7 58.8,186.7' },
+  { viewBox: '0 0 124.5 185.5', color1: '00ffff', color2: '0000ff', d: 'M17.8,56.4C17.8,31.9,37.6,12,62.1,12s43.1,19.9,44.4,44.4c0.9,18.5-23.6,42.7-40.9,66.5c-13.6,18.8-25.9,33.2-39.5,49.9h98' },
+  { viewBox: '0 0 124.5 183.5', color1: 'df3b82', color2: '6517c1', d: 'M22,12.5h69L48,72h14.5c27.3,0,49.5,22.2,49.5,49.5S89.8,171,62.5,171S13,148.8,13,121.5' },
+  { viewBox: '0 0 97 188.5', color1: 'ffff00', color2: 'a01506', points: '71,5 18.5,133.5 84.5,133.5 84.5,188' },
+  { viewBox: '0 0 127 193', color1: 'ffab80', color2: '482071', d: 'M100,12H29v67h35c28.2,0,51,22.8,51,51s-22.8,51-51,51s-51-22.8-51-51' },
+  { viewBox: '0 0 127 196.5', color1: 'ffd100', color2: 'ff0000', d: 'M83.4,86.5c18.3,7.7,31.1,25.9,31.1,47c0,28.2-22.8,51-51,51s-51-22.8-51-51c0-6.2,1.1-12.2,3.2-17.7l0.8-2.3l55-108' },
+  { viewBox: '0 0 118.5 195', color1: 'ff3861', color2: '44c5f2', points: '0,12 98,12 14,189' },
+  { viewBox: '0 0 126.5 207', color1: '00ccff', color2: '55dd00', d: 'M40.6,61.5c-6.1-6.1-11-16.5-9.2-25.2c3.4-16.8,18-26.6,34.9-23.7c16.9,3,28.1,19,25.2,35.9c-2.2,12.7-14.2,19.4-23.3,26.8l-33.8,28.7c-10.6,10.3-19.6,18.5-21.4,34.1c-3.2,28,16.9,53.3,44.9,56.5c28,3.2,53.3-16.9,56.5-44.9c2.4-21-15.6-33.3-29.6-47.6' },
+  { viewBox: '0 0 127 207', color1: '85dcd1', color2: '00318c', d: 'M43.9,110c-18.3-7.7-31.1-25.9-31.1-47c0-28.2,22.8-51,51-51s51,22.8,51,51c0,6.2-1.1,12.2-3.2,17.7l-0.8,2.3L51.8,201.1' },
+];
+
+var createSingleWorkPreview = function(preview, index) {
+  var id = index + 1;
+  var digitDetails = listOfDigits[index];
+  var tagName = digitDetails.points ? 'polyline' : 'path';
+  var propName = digitDetails.points ? 'points' : 'd';
+  return '<li class="preview-'+id+' works-page__list-item" data-preview="'+id+'"><svg class="gradient-digit" xmlns="http://www.w3.org/2000/svg" viewBox="'+digitDetails.viewBox+'"><defs><linearGradient id="gradient'+id+'" x1="80%" y1="0%" x2="20%" y2="100%"><stop offset="0%" stop-color="#'+digitDetails.color1+'" /><stop offset="100%" stop-color="#'+digitDetails.color2+'" /></linearGradient></defs><'+tagName+' '+propName+'="'+digitDetails[propName]+'" stroke="url(#gradient'+id+')"  /></svg><img src="'+preview+'"></li>'
+  // return '<li class="preview-'+id+' works-page__list-item" data-preview="'+id+'"><svg class="gradient-digit" xmlns="http://www.w3.org/2000/svg" viewBox="'+digitDetails.viewBox+'"><defs><linearGradient id="gradient'+id+'" x1="80%" y1="0%" x2="20%" y2="100%"><stop offset="0%" stop-color="#'+digitDetails.color1+'" /><stop offset="100%" stop-color="#'+digitDetails.color2+'" /></linearGradient></defs><'+tagName+' '+propName+'="'+digitDetails[propName]+'" stroke="url(https://mateuszjs.github.io/works#gradient'+id+')"  /></svg><img src="'+preview+'"></li>'
+}
+
+var worksList = function() {
+  return allTiny.map(createSingleWorkPreview).join('')
+}
+
 var handlerWorksPreview = function(oldRoute, transClass, id) {
-    window.workID = id ? parseInt(Router.removeSlashes(id)) : undefined;//currenty unnecessary
-    addElement(WorksPageTemplate, "page works-page " + transClass);
+  var workId = id ? parseInt(Router.removeSlashes(id)) : undefined;//currenty unnecessary
+    if (workId > 0 && workId <= allTiny.length) {
+      window.workID = workId
+    }
+    var WorkPageTempalteWithImages = WorksPageTemplate.replace('<WorksList>', worksList())
+    addElement(WorkPageTempalteWithImages, "page works-page " + transClass);
     pageAnimationInit(oldRoute, transClass);
 }
 
@@ -191,9 +221,9 @@ var showModal = function(id) {
         displayActionGroup = true;
         var newContent = '<img sizes="(max-width: '+allPreviews[id-1].maxwidth+'px) 100vw, '+allPreviews[id-1].maxwidth+'px" srcset="'+allPreviews[id-1].srcset+'" src="'+allPreviews[id-1].src+'" class="preview-modal__picture animated"/>\
                           <div class="preview-modal__action-group animated">\
-                            <i class="preview-modal__close-btn close-modal-action"></i>\
-                            <button class="preview-modal__btn preview-modal__btn--left" data-diff="-1"></button>\
-                            <button class="preview-modal__btn preview-modal__btn--right" data-diff="1"></button>\
+                            <i class="preview-modal__close-btn close-modal-action no-selection"></i>\
+                            <button class="preview-modal__btn preview-modal__btn--left no-selection" data-diff="-1"></button>\
+                            <button class="preview-modal__btn preview-modal__btn--right no-selection" data-diff="1"></button>\
                           </div>';
         addElement(newContent, 'preview-modal modal-hidden close-modal-action animated', mainElement.querySelector('.wrapper'));
         modal = mainElement.querySelector('.preview-modal');
@@ -339,7 +369,6 @@ window.addEventListener('popstate', function(e) {
 });
 
 var previewPos = [
-    // {y: 5, x: 45 },
     {y: 15, x: 26 },
     {y: 36, x: 51 },
     {y: 45, x: 15 },

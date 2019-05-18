@@ -12,7 +12,9 @@
               transform 0.8s ease;
 
   &--desktop {
-
+    bottom: 22px;
+    width: 200px;
+    margin-right: 115px;
   }
 
   &--animation {
@@ -24,4 +26,8 @@
     opacity: 0;
     transform: translateY(-8vh);
   }
+}
+
+.info-svg--desktop.info-svg--animation {
+  opacity: 0.75;
 }

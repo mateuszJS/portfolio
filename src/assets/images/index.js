@@ -1,10 +1,18 @@
-import icon1 from './1.png';
-import icon2 from './2.png';
-import icon3 from './3.png';
-import icon4 from './4.png';
-import icon5 from './5.png';
-import icon6 from './6.png';
-import icon7 from './7.png';
+import icon1Mobile from './preview-mobile/1.png';
+import icon2Mobile from './preview-mobile/2.png';
+import icon3Mobile from './preview-mobile/3.png';
+import icon4Mobile from './preview-mobile/4.png';
+import icon5Mobile from './preview-mobile/5.png';
+import icon6Mobile from './preview-mobile/6.png';
+import icon7Mobile from './preview-mobile/7.png';
+
+import icon1Desktop from './preview-desktop/1.png';
+import icon2Desktop from './preview-desktop/2.png';
+import icon3Desktop from './preview-desktop/3.png';
+import icon4Desktop from './preview-desktop/4.png';
+import icon5Desktop from './preview-desktop/5.png';
+import icon6Desktop from './preview-desktop/6.png';
+import icon7Desktop from './preview-desktop/7.png';
 
 import internet_1 from './internet/1.png';
 import internet_2 from './internet/2.png';
@@ -34,18 +42,31 @@ import drekon_1 from './drekon/1.png';
 import drekon_2 from './drekon/2.png';
 import drekon_4 from './drekon/4.png';
 
-
-export var allTiny = [
-    icon1,
-    icon2,
-    icon3,
-    icon4,
-    icon5,
-    icon6,
-    icon7,
-    icon7,
-    icon7,
+var allMobilePreviews = [
+  icon1Mobile,
+  icon2Mobile,
+  icon3Mobile,
+  icon4Mobile,
+  icon5Mobile,
+  icon6Mobile,
+  icon7Mobile,
+  icon7Mobile,
+  icon7Mobile,
 ];
+
+var allDekstopPreviews = [
+  icon1Desktop,
+  icon2Desktop,
+  icon3Desktop,
+  icon4Desktop,
+  icon5Desktop,
+  icon6Desktop,
+  icon7Desktop,
+  icon7Desktop,
+  icon7Desktop,
+];
+
+export var allTiny = window.isMobile ? allMobilePreviews : allDekstopPreviews;
 
 export var allPreviews = [
     {
@@ -84,9 +105,9 @@ export var allPreviews = [
         maxwidth: 1982,
     },
     {
-        srcset: `${snejki_1} 400w,${snejki_2} 1149w,${snejki_4} 2071w`,
-        src: snejki_4,
-        maxwidth: 1982,
+      srcset: `${snejki_1} 400w,${snejki_2} 1149w,${snejki_4} 2071w`,
+      src: snejki_4,
+      maxwidth: 1982,
     },
     {
         srcset: `${snejki_1} 400w,${snejki_2} 1142w,${snejki_4} 2071w`,
