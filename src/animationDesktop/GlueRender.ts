@@ -1,4 +1,4 @@
-import { IGlueGroup } from "./GluePsyhic"
+import { IParticle } from "./GluePsyhic"
 import getWebGLInstance from "./webGL/webGLInstance"
 import * as m4 from './utils/m4'
 import glueProgram from './webGL/programs/glueProgram/program'
@@ -14,10 +14,8 @@ export default class glueRender {
   private targetTexture: WebGLTexture
   private spaceTexture: TextureInfo
   private particleTexture: TextureInfo
-  // private angle: number
 
   constructor(textures: TextureInfo[]) {
-    // this.angle = 0
     this.spaceTexture = textures[0]
     this.particleTexture = textures[1]
 
@@ -63,10 +61,12 @@ export default class glueRender {
     dstWidth: number,
     dstHeight: number,
     alpha: number,
+    pivotX: number,
+    pivotY: number,
   ) {
   
     let matrix = m4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
-    matrix = m4.translate(matrix, dstX - dstWidth / 2, dstY - dstHeight / 2, 0);
+    matrix = m4.translate(matrix, dstX - dstWidth * pivotX, dstY - dstHeight * pivotY, 0);
     matrix = m4.scale(matrix, dstWidth, dstHeight, 1);
     glueProgram.u_matrix = matrix
     // Tell the shader to get the texture from texture unit 0
@@ -85,7 +85,7 @@ export default class glueRender {
     }
   }
 
-  private drawParticles(glueGroups: IGlueGroup[]) {
+  private drawParticles(particles: IParticle[]) {
     // render to our targetTexture by binding the framebuffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer)
   
@@ -105,21 +105,24 @@ export default class glueRender {
     glueProgram.bind_a_position()
     glueProgram.bind_a_texcoord()
 
-    glueGroups.forEach(({ particles }) => {
-      particles.forEach(particle => {
-        if (particle.lifeTime < 0) return
-        const dstX = particle.x
-        const dstY = particle.y
-        const dstWidth  = this.particleTexture.width * particle.scale
-        const dstHeight = this.particleTexture.height * particle.scale
-  
-        this.drawSingleParticle(
-          this.particleTexture.texture,
-          this.particleTexture.width,
-          this.particleTexture.height,
-          dstX, dstY, dstWidth, dstHeight,
-          particle.alpha)
-      })
+    particles.forEach(particle => {
+      if (particle.lifeTime < 0) return
+      const dstX = particle.x
+      const dstY = particle.y
+      const dstWidth  = particle.size * particle.scale
+      const dstHeight = particle.size * particle.scale
+      // const dstWidth  = this.particleTexture.width * particle.scale
+      // const dstHeight = this.particleTexture.height * particle.scale
+
+      this.drawSingleParticle(
+        this.particleTexture.texture,
+        this.particleTexture.width,
+        this.particleTexture.height,
+        dstX, dstY, dstWidth, dstHeight,
+        particle.alpha,
+        particle.pivotX,
+        particle.pivotY,
+      )
     })
   }
 
@@ -157,7 +160,7 @@ export default class glueRender {
     gl.drawArrays(gl.TRIANGLES, 0, 6)
   }
 
-  public draw(glueGroups: IGlueGroup[]) {
+  public draw(glueGroups: IParticle[]) {
     this.resize()
     this.drawParticles(glueGroups)
     this.drawSpace()

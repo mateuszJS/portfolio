@@ -2,7 +2,8 @@ import './webGL/setup'
 import GluePsyhic from './GluePsyhic'
 import GlueRender from './GlueRender'
 import getBestSpaceImg from '../getBestSpaceImg'
-import particleImg from '../assets/particle.png'
+import particleImg from '../assets/particle256.png'
+// import particleImg from '../assets/particle.png'
 import { loadImage, TextureInfo } from './utils/loadImage'
 import getWebGLInstance from './webGL/webGLInstance';
 import showInfoSvg from '../showSvgInfo';
@@ -39,7 +40,7 @@ const setup = (textures: TextureInfo[]) => {
 
   const play = () => {
     gluePsyhic.update()
-    glueRender.draw(gluePsyhic.glueGroups)
+    glueRender.draw(gluePsyhic.particles)
   }
 
   imagesWereLoaded = true

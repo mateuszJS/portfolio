@@ -10,3 +10,9 @@
     width: 150px;
   }
 }
+
+@include desktop {
+  .title--image {
+    width: 280px;
+  }
+}

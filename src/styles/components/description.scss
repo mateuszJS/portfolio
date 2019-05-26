@@ -8,9 +8,20 @@
   font-size: 18px;
   letter-spacing: 0.8px;
   line-height: 1.35em;
+  span {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
   @extend %transition-desc;
 }
 
-.mobile .description span {
-  background-color: rgba(255, 255, 255, 0.5);
+@include desktop {
+  .description {
+    font-size: 20px;
+    span {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+  }
+  .main-page .description {
+    font-size: 24px;
+  }
 }
