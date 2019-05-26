@@ -78,6 +78,8 @@ $list:
 .works-page {
   &__list-item {
     padding: 40px 0;
+    cursor: pointer;
+ 
     &:before {
       content: '';
       position: absolute;
