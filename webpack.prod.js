@@ -59,10 +59,10 @@ module.exports = merge(common, {
 		new UglifyJSPlugin({
       uglifyOptions: {
         compress: true,
-        ecma: 6,
+        ecma: 5,
         ie8: false,
       }
-		}),
+    }),
 		new BundleAnalyzerPlugin()
 	]
 })

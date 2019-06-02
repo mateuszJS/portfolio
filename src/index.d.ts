@@ -37,6 +37,7 @@ interface Window {
   isDesktop: boolean;
   isMobile: boolean;
   toggleRFA: VoidFunction
+  removeSvgInfo?: VoidFunction
   floatButtonClickHandler: VoidFunction
 }
 

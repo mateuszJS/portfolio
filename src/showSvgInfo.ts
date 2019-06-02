@@ -14,16 +14,21 @@ const showInfoSvg = (src: string, callback?: VoidFunction) => {
   window.getComputedStyle(node).opacity
   node.classList.add('info-svg--animation')
 
-  setTimeout(() => {
+  window.removeSvgInfo = function() {
+    if (!window.removeSvgInfo) {
+      return;
+    }
+    window.removeSvgInfo = undefined;
     node.classList.remove('info-svg--animation')
     node.classList.add('info-svg--animation-end')
+    setTimeout(() => {
+      document.body.removeChild(node)
+    }, 2000)
     if (callback) {
       callback();
     }
-  }, 5000)
-  setTimeout(() => {
-    document.body.removeChild(node)
-  }, 7000)
+  }
+  setTimeout(window.removeSvgInfo, 5000)
 }
 
 const initShowUpInfoSvg = (callback?: VoidFunction) => {

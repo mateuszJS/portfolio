@@ -57,6 +57,9 @@ var handlerMainPage = function(oldRoute, transClass) {
 }
 
 var willUnmountMainPage = function() {
+    if (window.removeSvgInfo) { // if doesn't exists/ it means that svg was removed by itself
+      window.removeSvgInfo() // remove svg info "rotate device" / "for mroe fun check on mobile"
+    }
     window.toggleRFA();
     canvas.classList.toggle('active');
     btnWrapper.classList.toggle('active');
@@ -80,7 +83,6 @@ var createSingleWorkPreview = function(preview, index) {
   var tagName = digitDetails.points ? 'polyline' : 'path';
   var propName = digitDetails.points ? 'points' : 'd';
   return '<li class="preview-'+id+' works-page__list-item" data-preview="'+id+'"><svg class="gradient-digit" xmlns="http://www.w3.org/2000/svg" viewBox="'+digitDetails.viewBox+'"><defs><linearGradient id="gradient'+id+'" x1="80%" y1="0%" x2="20%" y2="100%"><stop offset="0%" stop-color="#'+digitDetails.color1+'" /><stop offset="100%" stop-color="#'+digitDetails.color2+'" /></linearGradient></defs><'+tagName+' '+propName+'="'+digitDetails[propName]+'" stroke="url(/works#gradient'+id+')"  /></svg><img src="'+preview+'"></li>'
-  // return '<li class="preview-'+id+' works-page__list-item" data-preview="'+id+'"><svg class="gradient-digit" xmlns="http://www.w3.org/2000/svg" viewBox="'+digitDetails.viewBox+'"><defs><linearGradient id="gradient'+id+'" x1="80%" y1="0%" x2="20%" y2="100%"><stop offset="0%" stop-color="#'+digitDetails.color1+'" /><stop offset="100%" stop-color="#'+digitDetails.color2+'" /></linearGradient></defs><'+tagName+' '+propName+'="'+digitDetails[propName]+'" stroke="url(https://mateuszjs.github.io/works#gradient'+id+')"  /></svg><img src="'+preview+'"></li>'
 }
 
 var worksList = function() {
@@ -519,5 +521,18 @@ Router.routes = [
         ]
     }
 ];
+
+var scriptNode = document.createElement("script")
+scriptNode.setAttribute('src',window.isMobile ? "./animationMobile.bundle.js" : "./animationDesktop.bundle.js")
+document.head.appendChild(scriptNode)
+
+var loaderNode = document.querySelector('.init-loader')
+loaderNode.classList.remove('anim')
+setTimeout(
+  function(){
+    document.body.removeChild(loaderNode)
+  },
+  1000
+)
 
 Router.initialize();

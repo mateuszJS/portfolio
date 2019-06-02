@@ -44,10 +44,13 @@
   position: fixed;
   top: calc(50vh - 27px);
   left: calc(50vw - 100px);
+  display: flex;
+  padding-right: 2px;
   transform: translate3d(0, 24vh, 0);
   transition: 0.3s opacity 0.7s ease;
   &--hidden {
     opacity: 0;
+    pointer-events: none;
   }
 }
 
@@ -58,10 +61,6 @@
   &.active {
     opacity: 1;
   }
-}
-
-.mobile .btn-float {
-  display: flex;
 }
 
 .desktop .btn:not(.btn-float) {

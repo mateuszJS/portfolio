@@ -30,7 +30,7 @@
     display: none;
   }
 
-  img {
+  svg {
     width: 27px;
   }
 
@@ -46,7 +46,7 @@
     font-size: 18px;
     text-transform: uppercase;
 
-    &:before, img {
+    &:before, svg {
       display: none;
     }
 
@@ -95,7 +95,7 @@
 }
 
 .works-link {
-  img {
+  svg {
     width: 40px;
   }
   &::before {
