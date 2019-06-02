@@ -11,12 +11,6 @@
   transition: opacity 0.8s ease,
               transform 0.8s ease;
 
-  &--desktop {
-    bottom: 22px;
-    width: 200px;
-    margin-right: 115px;
-  }
-
   &--animation {
     opacity: 0.9;
     transform: translateY(0);
@@ -30,4 +24,12 @@
 
 .info-svg--desktop.info-svg--animation {
   opacity: 0.75;
+}
+
+@include desktop {
+  .info-svg--desktop {
+    bottom: 22px;
+    width: 200px;
+    margin-right: 115px;
+  }
 }

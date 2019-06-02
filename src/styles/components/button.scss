@@ -1,29 +1,20 @@
-// $animation-params: .7s cubic-bezier(0.68, -0.95, 0.265, 1.95);
-
-%base-button {
+.btn {
   display: none;
-  align-content: center;
   justify-content: center;
+  align-items: center;
   width: 200px;
   height: 54px;
-  margin: 60px auto;
-  color: #fff;
+  color: $color-second;
+  @include actions-font;
   background: none;
-  border: 2px solid #fff;
-  align-items: center;
-  font-family: inherit;
+  border: 2px solid $color-second;
   font-size: 1.8rem;
   letter-spacing: 0px;
   text-transform: uppercase;
   cursor: pointer;
-
   &:focus {
     outline: none;
   }
-}
-
-.btn {
-  @extend %base-button;
 
   &__icon {
     position: relative;
@@ -31,17 +22,18 @@
     height: 1em;
     margin-left: 12px;
     overflow: hidden;
-    img {
+    .arrow-icon {
       position: absolute;
-      top: 3px;
+      top: 2px;
       left: 0;
+      width: 100%;
       &:nth-child(2) {
         left: -1.5em;
       }
     }
   }
   &:hover {
-    img {
+    .arrow-icon {
       transform: translate3d(1.5em, 0, 0);
       transition: transform 0.5s ease;
     }
@@ -49,11 +41,9 @@
 }
 
 .btn-float {
-  @extend %base-button;
   position: fixed;
   top: calc(50vh - 27px);
   left: calc(50vw - 100px);
-  margin: 0;
   transform: translate3d(0, 24vh, 0);
   transition: 0.3s opacity 0.7s ease;
   &--hidden {
@@ -74,9 +64,15 @@
   display: flex;
 }
 
-.desktop .btn {
+.desktop .btn:not(.btn-float) {
   display: flex;
+  margin: 5rem auto 0;
+  background: $color-basic;
+  border: none;
   color: $color-second;
-  border-color: currentColor;
-  background: rgba(255, 255, 255, 0.5);
+  font-size: 22px;
+  letter-spacing: 2px;
+  @include desktop {
+    margin: 5rem 0 0;
+  }
 }

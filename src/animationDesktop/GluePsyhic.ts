@@ -8,7 +8,7 @@ var CIRCLES_COUNT = 90;
 // var MOVEMENT_DISTANCE = 0;
 // var MOVEMENT_ANGLE = MOVEMENT_DISTANCE / 300;
 var DUST_SPEED = 3
-var DUST_SCATTER = 0//Math.PI;
+var DUST_SCATTER = Math.PI;
 // var DUST_SPEED = Math.min(3 - MOVEMENT_DISTANCE * 0.83, 3);
 
 // const CANVAS_PADDING = 200;
@@ -131,26 +131,33 @@ export default class GluePsyhic {
 
   private updateGroupCenter = () => {
     this.timer += 0.02;
-    if (this.timer > 5) {
-      this.destination.x = Math.sin(-this.timer) * this.width * 0.5 + this.width / 2;
-      this.destination.y = -Math.cos(-this.timer) * this.height * 0.5 + this.height / 2;
-    }
-    let diffX = this.destination.x - this.center.x;
-    let diffY = this.destination.y - this.center.y;
-    const angle = Math.atan2(diffY, diffX) + Math.PI / 2;
-    const distance = Math.hypot(diffX, diffY);
-    let newX = 0;
-    let newY = 0;
-    if(distance > 1) {
-      const speed = distance * 0.01;
-      newX = Math.sin(angle) * speed;
-      newY = -Math.cos(angle) * speed;
-      this.center.angle = angle;
-      this.center.dustAngle = this.center.angle + Math.PI;
-      this.center.x += newX;
-      this.center.y += newY;
-    }
-    return [newX, newY];
+    // if (this.timer > 5) {
+    //   this.destination.x = Math.sin(-this.timer) * this.width * 0.5 + this.width / 2;
+    //   this.destination.y = -Math.cos(-this.timer) * this.height * 0.5 + this.height / 2;
+    // }
+    // let diffX = this.destination.x - this.center.x;
+    // let diffY = this.destination.y - this.center.y;
+    // const angle = Math.atan2(diffY, diffX) + Math.PI / 2;
+    // const distance = Math.hypot(diffX, diffY);
+    // let newX = 0;
+    // let newY = 0;
+    // if(distance > 1) {
+    //   const speed = distance * 0.01;
+    //   newX = Math.sin(angle) * speed;
+    //   newY = -Math.cos(angle) * speed;
+    //   this.center.angle = angle;
+    //   this.center.dustAngle = this.center.angle + Math.PI;
+    //   this.center.x += newX;
+    //   this.center.y += newY;
+    // }
+    this.timer, this.destination
+    this.center.x = window.innerWidth * 0.7;
+    this.center.y = window.innerHeight * 0.5;
+    // this.center.x = 200;
+    // this.center.y = 0;
+    // this.center.dustAngle = 0;
+    // this.center.angle = 0;
+    return [0, 0];
   }
 
   private updateGroupParticles(circle: IParticle, newX: number, newY: number) {
@@ -172,8 +179,12 @@ export default class GluePsyhic {
         const movement = this.randomMovement(circle.speed);
         circle.modX = movement.x;
         circle.modY = movement.y;
-
-        const dis = clamp(-0.75, Math.random() * 2 - 1, 0.75);
+        // circle.x = this.center.x
+        // circle.y = this.center.y;
+        
+        // clamp
+        const maxRange = 0.75;
+        const dis = clamp(-maxRange, Math.random() * 2 - 1, maxRange);
         const anchorX = Math.sin(this.center.angle + Math.PI / 2) * dis;
         const anchorY = -Math.cos(this.center.angle + Math.PI / 2) * dis;
         circle.x += anchorX * (size * circle.scale) / 2;
@@ -181,6 +192,18 @@ export default class GluePsyhic {
         circle.pivotX = (anchorX + 1) / 2;
         circle.pivotY = (anchorY + 1) / 2;
       } else {
+        // const angle = Math.atan2(circle.y - this.destination.y, circle.x - this.destination.x) - Math.PI / 2;
+        // const modX = Math.sin(angle);
+        // const modY = -Math.cos(angle);
+        // if (Math.abs(circle.modX) + Math.abs(circle.modY) < 4) {
+        //   circle.modX += modX
+        //   circle.modY += modY
+        // }
+        // const angle = Math.atan2(circle.modY, circle.modX) - Math.PI / 2;// + 0.1
+        // circle.modX = Math.sin(angle) * circle.speed
+        // circle.modY = -Math.cos(angle) * circle.speed
+        // console.log(angle, circle.modX, circle.modY);
+
         circle.x += circle.modX;
         circle.y += circle.modY;
         circle.modX *= 0.995;

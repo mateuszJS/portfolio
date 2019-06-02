@@ -1,0 +1,12 @@
+.title-hello {
+  margin: 4.37rem auto 3.75rem;
+  @include header-font;
+  color: $color-accent-complementary;
+  font-size: 4.37rem;
+  line-height: 1em;
+
+  @include desktop {
+    margin: 0;
+    color: $color-basic;
+  }
+}

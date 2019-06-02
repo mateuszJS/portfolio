@@ -10,10 +10,11 @@
 }
 
 .social-link {
+  padding-bottom: 40px;
   a {
     padding: 18px 12px;
     font-size: 30px;
-    color: $color-second;
+    color: $color-basic;
     text-decoration: none;
     transition: opacity 0.3s ease;
     &:hover {
@@ -26,7 +27,7 @@
   position: relative;
   display: inline-block;
   margin-top: 25px;
-  color: $color-second;
+  color: $color-basic;
   text-decoration: none;
   font-size: 1.2em;
   &:hover {

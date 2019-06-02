@@ -1,16 +1,17 @@
 "use strict";
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 module.exports = {
   resolve: {
-    extensions: ['.ts', '.js', '.glsl' ]
+    extensions: ['.ts', '.js', '.glsl']
   },
 	entry: {
 		index: `${__dirname}/src/index.js`,
-		// animationMobile: `${__dirname}/src/animationMobile/mainAnimation.ts`,
-		animationDesktop: `${__dirname}/src/animationDesktop/mainAnimation.ts`,
 		prefetchImages: `${__dirname}/src/prefetch-images.js`,
+		animationMobile: `${__dirname}/src/animationMobile/mainAnimation.ts`,
+		animationDesktop: `${__dirname}/src/animationDesktop/mainAnimation.ts`,
 		sayHello: `${__dirname}/src/sayHello.js`,
 	},
 	output: {
@@ -43,20 +44,20 @@ module.exports = {
 
 			{
         test: /\.(svg|png|jpg|jpeg|woff|woff2|eot|ttf)$/,
-        oneOf: [
-          {
-            test: /(bebasneue|Inline)/,
-						use: [
-							{
-								loader: 'url-loader',
-								options: {
-									limit: 20 * 1024
-								}
-							}
-						],
-          },
-          {
-            test: /\.(svg|png|jpg|jpeg|woff|woff2|eot|ttf)$/,
+        // oneOf: [
+        //   {
+        //     test: /(Inline)/,
+				// 		use: [
+				// 			{
+				// 				loader: 'url-loader',
+				// 				options: {
+				// 					limit: 20 * 1024
+				// 				}
+				// 			}
+				// 		],
+        //   },
+        //   {
+        //     test: /\.(svg|png|jpg|jpeg|woff|woff2|eot|ttf)$/,
 						use: [
 							{
 								loader: 'url-loader',
@@ -65,8 +66,8 @@ module.exports = {
 								}
 							}
 						],
-          },
-        ]
+        //   },
+        // ]
 			},
       {
         test: /\.glsl$/,
@@ -84,7 +85,11 @@ module.exports = {
 	},
 	plugins: [
 	  new HtmlWebpackPlugin({
-	    template: 'src/template.html'
-		})
+      template: 'src/template.html',
+      chunks: ['index', 'prefetchImages']
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+			async: ['index.bundle.js', 'prefetchImages.bundle.js'],
+		}),
 	]
 }

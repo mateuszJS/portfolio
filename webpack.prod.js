@@ -3,43 +3,65 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const MediaQueryPlugin = require('media-query-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = merge(common, {
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
 	module: {
 		rules: [
 			{
 				test: /\.scss$/,
 				exclude: /node_modules/,
-				loader: ExtractTextPlugin.extract({
-					fallback: "style-loader",
-					use: [
-						{ loader: 'css-loader', options: { minimize: true } },
-						"postcss-loader",
-						"sass-loader"
-					],
-				}),
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '/'
+            }
+          },
+          'css-loader',
+          MediaQueryPlugin.loader,
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: 'postcss',
+              plugins: [
+                require('autoprefixer')({
+                  'browsers': '> 1%, not IE 11'
+                }),
+              ],
+            }
+          },
+          "sass-loader",
+        ],
 			},
 		],
 	},
 	plugins: [
-		new ScriptExtHtmlWebpackPlugin({
-			defer: ['index.bundle.js'],
-			sync: ['animation.bundle.js', 'prefetch-images.bundle.js'],
-		}),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+    new MediaQueryPlugin({
+      include: [
+        'index'
+      ],
+      queries: {
+        '(min-width: 768px)': 'desktop'
+      }
+    }),
 		new UglifyJSPlugin({
-      compress: true,
-        uglifyOptions: {
-          output: {
-            comments: false,
-          },
-        },
-		}),
-		new ExtractTextPlugin({
-			filename: '[name].bundle.css',
-			allChunks: true,
+      uglifyOptions: {
+        compress: true,
+        ecma: 6,
+        ie8: false,
+      }
 		}),
 		new BundleAnalyzerPlugin()
 	]

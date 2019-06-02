@@ -18,7 +18,7 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(#000, 0.75);
+  background-color: $color-preview;
   opacity: 1;
   z-index: 2;
   &.loader::before {
@@ -57,7 +57,7 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
   &__btn {
     position: absolute;
     padding-bottom: 13px;
-    background-color: rgba(#000, 0.7);
+    background-color: $color-preview;
     opacity: 0.5;
     margin-top: -15vw;
     width: 30vw;
@@ -73,7 +73,7 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
       width: 40px;
       height: 7px;
       border-radius: 2px;
-      background-color: rgba(#fff, 0.9);
+      background-color: rgba($color-preview-front, 0.9);
       transform-origin: 100% 50%;
       transition: transform 0.5s ease;
     }
@@ -116,7 +116,7 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
     top: 4vh;
     right: 5vw;
     cursor: pointer;
-    background-color: rgba(#000, 0.5);
+    background-color: $color-preview;
     opacity: 0.5;
     transition: transform 0.5s ease,
                 opacity 0.5s ease;
@@ -127,7 +127,7 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
       width: 40px;
       height: 5px;
       border-radius: 0px;
-      background-color: #fff;
+      background-color: $color-preview-front;
     }
     &:before {
       transform: rotate(45deg);
@@ -157,10 +157,11 @@ $transition: transform 0.5s ease, opacity 0.5s ease;
   pointer-events: none;
 }
 
-.desktop .preview-modal__btn--left {
-  left: -17vw;
-}
-
-.desktop .preview-modal__btn--right {
-  right: -17vw;
+@include desktop {
+  .preview-modal__btn--left {
+    left: -17vw;
+  }
+  .preview-modal__btn--right {
+    right: -17vw;
+  }
 }

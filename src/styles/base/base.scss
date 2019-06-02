@@ -4,7 +4,7 @@
   box-sizing: border-box;
   &::selection {
     background-color: $color-accent;
-    color: #ff6633;
+    color: $color-accent-complementary;
   }
 }
 li {
@@ -16,12 +16,13 @@ img, button {
 html {
   font-size: 16px;
 }
+
 body {
-  font-family: 'OfficeCodePro';
+  @include body-copy-font;
   text-align: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow: hidden;
-  color: $color-second;
+  color: $color-basic;
 }

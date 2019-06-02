@@ -1,11 +1,10 @@
+@import 'settings/breakpoints';
 @import 'settings/colors';
 @import 'settings/fonts';
-@import 'settings/breakpoints';
 
 @import 'base/base';
 
-@import 'previewModal';
-
+@import 'components/preview-modal.scss';
 @import 'components/button';
 @import 'components/description';
 @import 'components/title';
@@ -17,11 +16,13 @@
 @import 'components/scroll-bar';
 @import 'components/icon';
 @import 'components/info-svg';
-
-@import 'trumps/animations.scss';
-@import 'trumps/no-selection.scss';
-
+@import 'components/no-selection.scss';
 @import 'components/preview';
-
 @import 'components/main-page';
 @import 'components/contact-page';
+@import 'components/title-hello';
+
+@import 'trumps/animations.scss';
+@import 'trumps/media-queries.scss';
+
+

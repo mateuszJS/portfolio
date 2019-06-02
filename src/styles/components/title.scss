@@ -1,18 +1,38 @@
 .title {
-  margin: 70px auto;
-  color: $color-second;
-  font-size: 55px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  @include header-font;
+  margin: 4.37rem auto;
+  color: $color-basic;
+  font-size: 3.75rem;
   font-weight: 400;
   text-align: center;
-  letter-spacing: 2px;
-  &--image {
-    display: block;
-    width: 150px;
+  letter-spacing: 20px;
+
+  &--lines {
+    &::after, &::before {
+      position: absolute;
+      bottom: 0;
+      content: '';
+      display: block;
+      width: 110%;
+      height: 1px;
+      background: $color-basic-light;
+    }
+  }
+
+  span {
+    margin-left: 1rem;
+  }
+
+  &::after {
+    bottom: -10px;
+    width: 90%;
+  }
+
+  @include desktop {
+    font-size: 4.68rem;
   }
 }
 
-@include desktop {
-  .title--image {
-    width: 280px;
-  }
-}

@@ -1,27 +1,55 @@
-%transition-desc {
-  transition: transform 1s ease-in-out,
-              opacity 1s ease-in-out,
-  letter-spacing 1s ease-in-out;
-}
-
 .description {
-  font-size: 18px;
+  font-size: 1.125rem;
   letter-spacing: 0.8px;
   line-height: 1.35em;
-  span {
+  &--background {
     background-color: rgba(255, 255, 255, 0.5);
   }
-  @extend %transition-desc;
 }
 
 @include desktop {
-  .description {
-    font-size: 20px;
-    span {
-      background-color: rgba(255, 255, 255, 0.7);
-    }
-  }
   .main-page .description {
-    font-size: 24px;
+    font-size: 1.125rem;
+    margin-top: 3rem;
+    @include header-font;
+    font-size: 4rem;
+    color: $color-basic;
+    text-transform: lowercase;
+    &__sm {
+        font-size: 1em;
+        line-height: 1em;
+    }
+    &__md {
+        font-size: 1.5em;
+        line-height: 1em;
+    }
+    &__lg {
+        font-size: 2.3em;
+        line-height: 1em;
+    }
+    &__char {
+        line-height: 1em;
+        font-size: 0.7em;
+    }
+    &__char--special {
+        margin: 0 0.5rem;
+        font-size: 0.7em;
+    }
+    .animated:last-child {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        bottom: -30px;
+        content: '------------';
+        display: block;
+        color: rgba(0, 0, 0, 0);
+        font-size: 0.6em;
+        text-decoration: underline wavy $color-accent;
+      }
+    }
+    &--background {
+      background: none;
+    }
   }
 }

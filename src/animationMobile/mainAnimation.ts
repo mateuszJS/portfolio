@@ -25,6 +25,7 @@ let temp_angle = initialGamma * Math.PI / 180 + Math.PI
 let allowCalcPhycis = true
 
 const workBtn = document.createElement('BUTTON') as HTMLButtonElement
+workBtn.classList.add('btn')
 workBtn.classList.add('btn-float')
 workBtn.classList.add('btn-float--hidden')
 workBtn.innerText = 'Works'
@@ -76,8 +77,8 @@ const setup = (textures: TextureInfo[]) => {
   handleResizeAndOrientation();
 
   function handleOrientation(event: DeviceOrientationEvent) {
-    const beta = Math.round(Number(event.beta))
-    const gamma = Math.round(Number(event.gamma))
+    const beta = Math.round(Number(event.beta || 0))
+    const gamma = Math.round(Number(event.gamma || 0))
     if (getDeviceOrientstion() == 90) {
       temp_angle = 90 - beta;
     } else if (getDeviceOrientstion() == -90) {

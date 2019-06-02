@@ -5,37 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mateusz Portfolio 🍾</title>
     <base href="/">
-    <script type="text/javascript">
-      (function(l) {
-        if (l.search) {
-          var q = {};
-          l.search.slice(1).split('&').forEach(function(v) {
-            var a = v.split('=');
-            q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
-          });
-          if (q.p !== undefined) {
-            window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + (q.p || '') +
-              (q.q ? ('?' + q.q) : '') +
-              l.hash
-            );
-          }
-        }
-      }(window.location))
-    </script>
-    <script type="text/javascript">
-      var addLink = function(href) {
-        var hint = document.createElement('link');
-            hint.rel = "prefetch";
-            hint.as = "script";
-            hint.href = href;
-        document.head.appendChild(hint);
-      }
-      if (window.innerWidth > 768 || !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        window.isDesktop = true;
-      }
-      addLink('/prefetchImages.bundle.js');
-    </script>
+    <script>function t(e){var n=document.createElement("script");n.setAttribute('src',e);document.head.appendChild(n)}(function(e){if(e.search){var n={};e.search.slice(1).split("&").forEach(function(e){var o=e.split("=");n[o[0]]=o.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==n.p&&window.history.replaceState(null,null,e.pathname.slice(0,-1)+(n.p||"")+(n.q?"?"+n.q:"")+e.hash)}})(window.location),window.isMobile=/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP)))|mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|nintendo ds|archos|skyfire|puffin|blazer|bolt|gobrowser|iris|maemo|semc|teashark|uzard)/.test(navigator.userAgent.toLowerCase()),window.isDesktop=!window.isMobile,t(window.isDesktop?"./animationDesktop.bundle.js":"./animationMobile.bundle.js");if(window.isDesktop){t("./sayHello.bundle.js");var n=document.createElement("link");n.setAttribute('href','/index-desktop.css');n.setAttribute('rel','stylesheet');document.head.appendChild(n)}</script>
   <link href="/index.bundle.css" rel="stylesheet"></head>
   <body>
     <span class="cursor" style="display: none"></span>

@@ -10,11 +10,16 @@ $list:
 (size: 37, space-top: 176, space-left: 11, dasharray: 375),
 ;
 
+
+
 .previews-list {
-  @include tablet {
-    position: relative;
-    min-height: 200vw;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.works-page__list-item {
+  width: 100%;
+  max-width: 400px;
 }
 
 .gradient-digit {
@@ -40,37 +45,6 @@ $list:
   }
 }
 
-@include tablet {
-  @each $preview in $list {
-    $i: index($list, $preview);
-    .preview-#{$i} {
-      width: calc(#{map-get($preview, size)}vw - 40px);
-      transform: translate3d(#{map-get($preview, space-left) * 0.85}vw, #{(map-get($preview, space-top))}vw, 0);
-      path, polyline {
-        stroke-dasharray: #{map-get($preview, dasharray)};
-        stroke-dashoffset: #{map-get($preview, dasharray)};
-      }
-    }
-  }
-  .works-page__list-item {
-    position: absolute;
-    left: 7vw;
-  }
-
-  .gradient-digit {
-    height: 80px;
-    position: absolute;
-    margin-top: -31px;
-    margin-left: -16px;
-    z-index: 1;
-    path, polyline {
-      stroke-width: 24;
-      fill: none;
-      transition: stroke-dashoffset 2s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-  }
-}
-
 .preview--active path, .preview--active polyline {
   stroke-dashoffset: 0;
 }
@@ -88,7 +62,7 @@ $list:
       height: 160px;
       margin-top: -53px;
       margin-left: -15px;
-      background: rgba(#fff, 0.5);
+      background: rgba($color-second, 0.5);
       transform: rotate(45deg);
       z-index: 1;
     }
@@ -96,34 +70,46 @@ $list:
       width: 100%;
       height: 100%;
       pointer-events: none;
-      filter: grayscale(100%);
-      transition: filter 1s ease,
-                  transform 0.5s ease;
     }
-    &.preview--active {
+  }
+}
+
+@include desktop {
+  @each $preview in $list {
+    $i: index($list, $preview);
+    .preview-#{$i} {
+      width: calc(#{map-get($preview, size)}vw - 40px);
+      transform: translate3d(#{map-get($preview, space-left) * 0.85}vw, #{(map-get($preview, space-top))}vw, 0);
+    }
+  }
+  .works-page__list-item {
+    position: absolute;
+    left: 7vw;
+    max-width: initial;
+  }
+
+  .gradient-digit {
+    height: 80px;
+    position: absolute;
+    margin-top: -31px;
+    margin-left: -16px;
+    z-index: 1;
+  }
+  .previews-list {
+    position: relative;
+    min-height: 200vw;
+  }
+
+  .works-page {
+    &__list-item {
       img {
+        filter: grayscale(100%);
+        transition: filter 1s ease;
+      }
+      &.preview--active img {
         filter: grayscale(0%);
       }
     }
   }
 }
 
-.item-delay- {
-  &1 { transition-delay: 0s; }
-  &2 { transition-delay: 0.2s; }
-  &3 { transition-delay: 0.4s; }
-  &4 { transition-delay: 0.6s; }
-  &5 { transition-delay: 0.8s; }
-}
-
-@include mobile {
-  .previews-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .works-page__list-item {
-    width: 100%;
-    max-width: 400px;
-  }
-}

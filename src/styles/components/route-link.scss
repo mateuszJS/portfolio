@@ -1,11 +1,9 @@
 .route-link {
   position: fixed;
   top: 17px;
-  background: none;
-  border: none;
   outline: none;
-  color: $color-second;
   z-index: 2;
+  user-select: none;
 
   &::before {
     content: '';
@@ -36,25 +34,17 @@
     width: 27px;
   }
 
-  &.works-link {
-    img {
-      width: 40px;
-    }
-    &::before {
-      width: 52px;
-    }
-  }
-
-  @include tablet {
+  @include desktop {
     top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 90px;
     height: 100vh;
-    padding: 0;
-    background: none;
-    text-transform: uppercase;
+    color: $color-basic;
+    @include actions-font;
     font-size: 18px;
-    border: none;
-    cursor: pointer;
+    text-transform: uppercase;
 
     &:before, img {
       display: none;
@@ -75,21 +65,40 @@
       outline: none;
     }
     span {
-      display: block;
-      width: 300px;
-      margin-left: 45px - 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 300px; // 300 - max text width
       transform: rotate(-90deg);
       transition: letter-spacing ease 0.5s;
       pointer-events: none;
+
+      &::before, &::after {
+        content: '';
+        display: inline-block;
+        height: 2px;
+        width: 10px;
+        margin: 0 5px;
+        background: $color-accent;
+      }
     }
     &--left {
       left: 0;
-      border-right: 1px solid rgba($color-second, 0.3); // $color-light-basic
+      border-right: 1px solid $color-basic-light;
     }
     &--right {
       width: 90px - 15px;
       right: 15px; // Space for scrollbar
-      border-left: 1px solid rgba($color-second, 0.3); // $color-light-basic
+      border-left: 1px solid $color-basic-light;
     }
+  }
+}
+
+.works-link {
+  img {
+    width: 40px;
+  }
+  &::before {
+    width: 52px;
   }
 }

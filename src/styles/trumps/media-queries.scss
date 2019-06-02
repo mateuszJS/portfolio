@@ -1,0 +1,19 @@
+.desktop-only {
+  display: none;
+}
+
+@include desktop {
+  .mobile-only {
+    display: none;
+  }
+  .desktop-only {
+    display: block;
+  }
+}
+
+html {
+  font-size: 14px;
+  @media (min-width: 335px) {
+    font-size: 16px;
+  }
+}
