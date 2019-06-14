@@ -87,10 +87,10 @@ module.exports = {
 	  new HtmlWebpackPlugin({
       template: 'src/template.html',
       inject: 'head',
-      chunks: ['index', 'prefetchImages']
+      chunks: ['index']
     }),
     new ScriptExtHtmlWebpackPlugin({
-			defer: ['index.bundle.js', 'prefetchImages.bundle.js'], // defer fetch async and execute after DOM parsing
+			defer: ['index.bundle.js'], // defer fetch async and execute after DOM parsing
 		}),
 	]
 }

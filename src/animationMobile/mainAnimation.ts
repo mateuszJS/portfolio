@@ -4,10 +4,9 @@ import GlueRender from './GlueRender'
 import getBestSpaceImg from '../getBestSpaceImg'
 import particleImg from '../assets/circleSM30newInlineRed.png'
 import { loadImage, TextureInfo } from './utils/loadImage'
-import getWebGLInstance from './webGL/webGLInstance'
 import showInfoSvg from '../showSvgInfo';
+import loadScriptToFetchPreviews from '../loadScriptToFetchPreviews';
 
-const gl = getWebGLInstance()
 
 // initial positon is vertical
 const dimensions = {
@@ -34,7 +33,11 @@ const btnWrapper = document.querySelector('.btn-float-container') as HTMLDivElem
 
 btnWrapper.appendChild(workBtn)
 
-workBtn.addEventListener('click', window.floatButtonClickHandler)
+if (window.floatButtonClickHandler) { // if main bundle was loaded first
+  workBtn.addEventListener('click', window.floatButtonClickHandler as VoidFunction)
+} else {
+  window.floatButtonClickHandler = workBtn // if not, then assign button node and add listener in main bundle
+}
 
 let imagesWereLoaded = false
 const spaceBackgroundImg = getBestSpaceImg()
@@ -52,6 +55,7 @@ const floatButton = {
 }
 
 const setup = (textures: TextureInfo[]) => {
+  window.isMobileAnimationLoaded = true
   const gluePsyhic = new GluePsyhic(dimensions.width, dimensions.height)
   const glueRender = new GlueRender(textures, dimensions.width, dimensions.height)
 
@@ -98,12 +102,17 @@ const setup = (textures: TextureInfo[]) => {
   window.addEventListener('deviceorientation', handleOrientation);
 
   let requestAnimationFrameId: number | null = null
-  window.toggleRFA = () => {
+
+  window.turnOnRAF = () => {
+    if (!requestAnimationFrameId) {
+      loop()
+    }
+  }
+
+  window.turnOffRAF = () => {
     if (requestAnimationFrameId) {
       window.cancelAnimationFrame(requestAnimationFrameId)
       requestAnimationFrameId = null
-    } else {
-      loop()
     }
   }
 
@@ -144,9 +153,9 @@ const setup = (textures: TextureInfo[]) => {
   }
 
   imagesWereLoaded = true
-
-  if (gl.canvas.classList.contains('active')) {
-    window.toggleRFA()
+  // when user iso n main page AND rotuer is already laoded (if not, toggleRGA will be called on handlerMainPage())
+  if (window.location.pathname === '/') {
+    window.turnOnRAF()
     showInfoSvg(() => workBtn.classList.remove('btn-float--hidden'))
   } else {
     workBtn.classList.remove('btn-float--hidden')
@@ -155,3 +164,5 @@ const setup = (textures: TextureInfo[]) => {
 
 const promises = images.map(loadImage)
 Promise.all(promises).then(setup)
+
+loadScriptToFetchPreviews()

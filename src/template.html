@@ -3,8 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Front-end and graphic portoflio. Author: Mateusz Walendzik">
     <title>Mateusz Portfolio 🎉</title>
     <base href="/">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
     <style>
       .init-loader{top:50vh;left:0;right:0;position:fixed;margin:auto;max-width: 200px;width:70vw;transition:opacity 0.5s ease;opacity:0;}
       .init-loader path{
@@ -19,11 +21,11 @@
         stroke-dashoffset: 2000;
       }
     </style>
+    <link href="/index.css" rel="stylesheet" />
   </head>
   <body>
     <svg version="1" class="init-loader" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 259 35"><path d="M6 7c18 0 18 22 35 22C59 29 59 7 77 7c17 0 17 22 35 22 17 0 17-22 35-22s18 22 35 22c18 0 18-22 36-22s17 22 35 22" fill="none" stroke="#3b79ff" stroke-width="10" stroke-linecap="round" stroke-miterlimit="10"/></svg>
-    <script>var s=document.querySelector('.init-loader');window.getComputedStyle(s).opacity;s.classList.add('anim');</script>
-    <script>(function(e){if(e.search){var n={};e.search.slice(1).split("&").forEach(function(e){var o=e.split("=");n[o[0]]=o.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==n.p&&window.history.replaceState(null,null,e.pathname.slice(0,-1)+(n.p||"")+(n.q?"?"+n.q:"")+e.hash)}})(window.location),window.isMobile=/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP)))|mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|nintendo ds|archos|skyfire|puffin|blazer|bolt|gobrowser|iris|maemo|semc|teashark|uzard)/.test(navigator.userAgent.toLowerCase()),window.isDesktop=!window.isMobile;if(window.isDesktop){var n=document.createElement("script");n.setAttribute('src',"./sayHello.bundle.js");document.head.appendChild(n);var n=document.createElement("link");n.setAttribute('href','/index-desktop.css');n.setAttribute('rel','stylesheet');document.head.appendChild(n)}</script>
+    <script>var s=document.querySelector('.init-loader');window.getComputedStyle(s).opacity;s.classList.add('anim');function t(e){var n=document.createElement("script");n.setAttribute('src',e);document.head.appendChild(n)}(function(e){if(e.search){var n={};e.search.slice(1).split("&").forEach(function(e){var o=e.split("=");n[o[0]]=o.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==n.p&&window.history.replaceState(null,null,e.pathname.slice(0,-1)+(n.p||"")+(n.q?"?"+n.q:"")+e.hash)}})(window.location),window.isMobile=/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP)))|mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|nintendo ds|archos|skyfire|puffin|blazer|bolt|gobrowser|iris|maemo|semc|teashark|uzard)/.test(navigator.userAgent.toLowerCase()),window.isDesktop=!window.isMobile;t(window.isMobile ? "./animationMobile.bundle.js" : "./animationDesktop.bundle.js");if(window.isDesktop){t("./sayHello.bundle.js");var n=document.createElement("link");n.setAttribute('href','/index-desktop.css');n.setAttribute('rel','stylesheet');document.head.appendChild(n)}</script>
     <canvas class="animation-block"></canvas>
     <div class="btn-float-container"></div>
     <main></main>

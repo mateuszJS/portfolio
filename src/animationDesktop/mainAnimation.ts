@@ -3,12 +3,9 @@ import GluePsyhic from './GluePsyhic'
 import GlueRender from './GlueRender'
 import getBestSpaceImg from '../getBestSpaceImg'
 import particleImg from '../assets/particle256.png'
-// import particleImg from '../assets/particle.png'
 import { loadImage, TextureInfo } from './utils/loadImage'
-import getWebGLInstance from './webGL/webGLInstance';
 import showInfoSvg from '../showSvgInfo';
-
-const gl = getWebGLInstance()
+import loadScriptToFetchPreviews from '../loadScriptToFetchPreviews';
 
 let requestAnimationFrameId: number | null = null;
 let imagesWereLoaded = false
@@ -22,12 +19,16 @@ const setup = (textures: TextureInfo[]) => {
   const gluePsyhic = new GluePsyhic()
   const glueRender = new GlueRender(textures)
 
-  window.toggleRFA = () => {
+  window.turnOnRAF = () => {
+    if (!requestAnimationFrameId) {
+      loop()
+    }
+  }
+
+  window.turnOffRAF = () => {
     if (requestAnimationFrameId) {
       window.cancelAnimationFrame(requestAnimationFrameId)
       requestAnimationFrameId = null
-    } else {
-      loop()
     }
   }
 
@@ -45,8 +46,8 @@ const setup = (textures: TextureInfo[]) => {
 
   imagesWereLoaded = true
 
-  if (gl.canvas.classList.contains('active')) {
-    window.toggleRFA()
+  if (window.location.pathname === '/') {
+    window.turnOnRAF()
     showInfoSvg()
   }
 
@@ -54,3 +55,5 @@ const setup = (textures: TextureInfo[]) => {
 
 const promises = images.map(loadImage)
 Promise.all(promises).then(setup)
+
+loadScriptToFetchPreviews()

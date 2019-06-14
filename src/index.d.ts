@@ -36,9 +36,12 @@ declare module "*.svg" {
 interface Window {
   isDesktop: boolean;
   isMobile: boolean;
-  toggleRFA: VoidFunction
+  turnOnRAF: VoidFunction
+  turnOffRAF: VoidFunction
   removeSvgInfo?: VoidFunction
-  floatButtonClickHandler: VoidFunction
+  floatButtonClickHandler?: VoidFunction | HTMLButtonElement
+  isMobileAnimationLoaded?: boolean;
+  isMainBundleLoader?: boolean;
 }
 
 type Matrix3 = [

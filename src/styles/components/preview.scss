@@ -4,10 +4,10 @@ $list:
 (size: 37, space-top: 45, space-left: 2, dasharray: 390),
 (size: 27, space-top: 63, space-left: 61, dasharray: 260),
 (size: 28, space-top: 84, space-left: 23, dasharray: 420),
-(size: 46, space-top: 107, space-left: 42, dasharray: 365),
+(size: 37, space-top: 107, space-left: 49, dasharray: 365),
 (size: 29, space-top: 127, space-left: 8, dasharray: 295),
-(size: 31, space-top: 154, space-left: 45, dasharray: 465),
-(size: 37, space-top: 176, space-left: 11, dasharray: 375),
+// (size: 31, space-top: 154, space-left: 45, dasharray: 465),
+// (size: 37, space-top: 176, space-left: 11, dasharray: 375),
 ;
 
 
@@ -97,7 +97,7 @@ $list:
   }
   .previews-list {
     position: relative;
-    min-height: 200vw;
+    min-height: 155vw;
   }
 
   .works-page {

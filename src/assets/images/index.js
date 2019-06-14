@@ -50,8 +50,8 @@ var allMobilePreviews = [
   icon5Mobile,
   icon6Mobile,
   icon7Mobile,
-  icon7Mobile,
-  icon7Mobile,
+  // icon7Mobile,
+  // icon7Mobile,
 ];
 
 var allDekstopPreviews = [
@@ -62,8 +62,8 @@ var allDekstopPreviews = [
   icon5Desktop,
   icon6Desktop,
   icon7Desktop,
-  icon7Desktop,
-  icon7Desktop,
+  // icon7Desktop,
+  // icon7Desktop,
 ];
 
 export var allTiny = window.isMobile ? allMobilePreviews : allDekstopPreviews;
@@ -104,14 +104,14 @@ export var allPreviews = [
         src: snejki_4,
         maxwidth: 1982,
     },
-    {
-      srcset: `${snejki_1} 400w,${snejki_2} 1149w,${snejki_4} 2071w`,
-      src: snejki_4,
-      maxwidth: 1982,
-    },
-    {
-        srcset: `${snejki_1} 400w,${snejki_2} 1142w,${snejki_4} 2071w`,
-        src: snejki_4,
-        maxwidth: 1982,
-    },
+    // {
+    //   srcset: `${snejki_1} 400w,${snejki_2} 1149w,${snejki_4} 2071w`,
+    //   src: snejki_4,
+    //   maxwidth: 1982,
+    // },
+    // {
+    //     srcset: `${snejki_1} 400w,${snejki_2} 1142w,${snejki_4} 2071w`,
+    //     src: snejki_4,
+    //     maxwidth: 1982,
+    // },
 ];

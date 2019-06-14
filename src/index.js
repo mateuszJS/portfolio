@@ -42,15 +42,16 @@ var pageAnimationInit = function(oldRoute, transClass) {
   }
 }
 
-if (!window.toggleRFA) {
-  window.toggleRFA = () => {}
+if (!window.turnOnRAF) {
+  window.turnOnRAF = () => {}
+  window.turnOffRAF = () => {}
 }
 
 var handlerMainPage = function(oldRoute, transClass) {
     addElement(MainPageTemplate, "page main-page " + transClass);
     pageAnimationInit(oldRoute, transClass);
-    window.toggleRFA();
-    // NOTE: toggleRFA is property of window because it shouldn't be imported into this file,
+    window.turnOnRAF();
+    // NOTE: turnOnRAF/turnOffRAF is property of window because it shouldn't be imported into this file,
     // it should be loaded as totally apart part 
     canvas.classList.toggle('active');
     btnWrapper.classList.toggle('active');
@@ -60,7 +61,7 @@ var willUnmountMainPage = function() {
     if (window.removeSvgInfo) { // if doesn't exists/ it means that svg was removed by itself
       window.removeSvgInfo() // remove svg info "rotate device" / "for mroe fun check on mobile"
     }
-    window.toggleRFA();
+    window.turnOffRAF();
     canvas.classList.toggle('active');
     btnWrapper.classList.toggle('active');
 }
@@ -378,8 +379,8 @@ var previewPos = [
     {y: 84, x: 25 },
     {y: 112, x: 48 },
     {y: 129, x: 13 },
-    {y: 154, x: 47 },
-    {y: 176, x: 13 },
+    // {y: 154, x: 47 },
+    // {y: 176, x: 13 },
 ];
 
 // t: current time, b: begInnIng value, c: change In value, d: duration
@@ -437,7 +438,11 @@ var onMountedWorksPage = function() {
 
 // NOTE: only if it's the mobile view
 if (window.isMobile) {
-  window.floatButtonClickHandler = redirect.bind('/works')
+  if (window.floatButtonClickHandler) { // it means that animation was laoded first, and window.floatButtonClickHandler = button node
+    window.floatButtonClickHandler.addEventListener('click', redirect.bind('/works'));
+  } else {
+    window.floatButtonClickHandler = redirect.bind('/works')
+  }
 }
 
 Router.routes = [
@@ -522,17 +527,73 @@ Router.routes = [
     }
 ];
 
-var scriptNode = document.createElement("script")
-scriptNode.setAttribute('src',window.isMobile ? "./animationMobile.bundle.js" : "./animationDesktop.bundle.js")
-document.head.appendChild(scriptNode)
+var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor)
+var isChromeOrSafari = isChrome || isSafari
 
-var loaderNode = document.querySelector('.init-loader')
-loaderNode.classList.remove('anim')
-setTimeout(
-  function(){
-    document.body.removeChild(loaderNode)
-  },
-  1000
+// Init page and hdie laoder when all styles will be loaded
+
+function checkStyleIsLoaded(name) { // "/index.css"
+  if (!isChromeOrSafari) {
+    return true; // Firefox doesn't allow you to read 'cssRules' property
+  }
+  for (var i = 0; i < document.styleSheets.length; i++) {
+    if (document.styleSheets[i].href && document.styleSheets[i].href.match(name)) {
+        if (document.styleSheets[i].cssRules.length == 0) {
+            return false
+        } else {
+          return true;
+        }
+    }
+  }
+}
+
+function initPage() {
+  Router.initialize();
+  var loaderNode = document.querySelector('.init-loader')
+  loaderNode.classList.remove('anim')
+  setTimeout(
+    function(){
+      document.body.removeChild(loaderNode)
+    },
+    1000
+  )
+}
+var checkStylesWereLoaded = function(callback) {
+  if (checkStyleIsLoaded('/index.css')) {
+    if (window.isDesktop) {
+      if (checkStyleIsLoaded('/index-desktop.css')) {
+        initPage()
+        callback()
+      }
+    } else {
+      if (window.location.pathname === '/') { // if user is on main page
+        if (window.isMobileAnimationLoaded) { // check if aniamtion was laoded
+          initPage()
+          callback()
+        }
+      } else { // if not on main page, then run page (animation is not needed)
+        initPage()
+        callback()
+      }
+    }
+  }
+}
+
+var stylesWereLoader = false
+checkStylesWereLoaded(
+  function() {
+    stylesWereLoader = true
+  }
 )
 
-Router.initialize();
+var intervalId = null
+if (!stylesWereLoader) { // if styles werent laoded, then setInterval
+  intervalId = window.setInterval(function() { // laoded styles doesn't fire any event on some browser (chrome safari)
+    checkStylesWereLoaded(function() {
+      window.clearInterval(intervalId)
+    })
+  }, 300)
+}
+
+window.isMainBundleLoader = true
